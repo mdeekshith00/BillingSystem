@@ -30,7 +30,7 @@ public class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@JsonProperty("uId")
-	private int uId;
+	private long uId;
 	@Column
 	private String uName;
 	@Column

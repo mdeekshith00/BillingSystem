@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.model.Users;
@@ -26,6 +27,7 @@ public class UsersController {
 	
 	@PostMapping("/add")
 	public ResponseEntity<Users> addUser(@RequestBody  Users user) {
+		System.out.println(uService.addUser(user));
 		return new ResponseEntity<Users>(uService.addUser(user) , HttpStatus.CREATED);
 	}
 	@GetMapping("/")
@@ -33,9 +35,14 @@ public class UsersController {
 		return new ResponseEntity<>(uService.getAllUsers() , HttpStatus.OK);
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Users> getUserById(@PathVariable int id) {
+	public ResponseEntity<Users> getUserById(@PathVariable long id) {
 		return new ResponseEntity<Users>(uService.getUserById(id) , HttpStatus.OK);
 		
+	}
+	
+	@PostMapping("/user/{uId}/Products/{pId}")
+	public ResponseEntity<Users> setProductsToUsers(@PathVariable long uId,@PathVariable long pId) {
+		return new ResponseEntity<Users>(uService.setProductsToUsers(uId, pId) ,  HttpStatus.OK);
 	}
 
 }

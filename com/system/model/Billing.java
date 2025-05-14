@@ -30,10 +30,10 @@ public class Billing {
 	@Id
 	@JsonProperty("bId")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int bId;
+	private long bId;
 	@Column
 	private BigDecimal bAmount;
-//	@private int 
+
 
 	@OneToOne
 	@JoinColumn(name="user_id")

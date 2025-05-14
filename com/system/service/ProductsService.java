@@ -9,7 +9,9 @@ public interface ProductsService {
 	Products addProducts(Products products);
 	List<Products> getAllProducts();
 	Products getProdutsById(long pId);
-	List<Products> findByUserId(int uId);
+	
+	List<Products> findByUserId(long uId);
+
 	
 
 }

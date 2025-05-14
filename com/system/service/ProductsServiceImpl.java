@@ -1,6 +1,5 @@
 package com.system.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,23 +33,21 @@ public class ProductsServiceImpl implements ProductsService {
 	@Override
 	public Products getProdutsById(long pId) {
 		// TODO Auto-generated method stub
-		return prodRepositary.findById(pId).orElseThrow(() -> new ResourceNotFound("Products","Id", pId));
+		return prodRepositary.findById(pId).orElseThrow(() -> 
+		new ResourceNotFound("Products","pId", pId));
+		
 	}
 
-	public List<Products> findByUserId(int uId) {
+	public List<Products> findByUserId(long uId) {
 		// TODO Auto-generated method stub
 		Users u = uProductRepositary.findById(uId).orElseThrow(() -> 
-		new ResourceNotFound("Products", "Id", uId));
-		List<Products> list = new ArrayList<Products>();
-		if(u.getUId() == uId)  
-			list = prodRepositary.findAll();
+		new ResourceNotFound("Products", "uId", uId));
 		
-		return list;
-			
+		 List<Products> userProducts = u.getPId(); 
+			return userProducts;
 	}
 
 	
-
-	
-
 }
+
+

@@ -7,12 +7,11 @@ import com.system.model.Billing;
 public interface BillingService {
 	
 	Billing addBilling(Billing billing);
-	Billing getBillById(int id );
+	Billing addBilling(Billing billing, long uId);
+	Billing getBillById(long bId);
 	List<Billing> getAllBill();
-
-	void addBillsForAllUsers();
-	String  addBillsForUsers(int id);
 	
-//	void addBill();
+	String addBillsForUser(long uId);
+
 
 }
