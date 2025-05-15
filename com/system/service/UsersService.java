@@ -2,15 +2,17 @@ package com.system.service;
 
 import java.util.List;
 
+import com.system.dto.UsersDto;
 import com.system.model.Users;
 
 public interface UsersService {
 	
-	Users addUser(Users user);
-	Users getUserById(long uId);
-	List<Users> getAllUsers();
+	UsersDto addUser(Users user);
+//	Users addUser(Users user , long pId);
+	UsersDto getUserById(long uId, long bId);
+	List<UsersDto> getAllUsers();
 
-   Users setProductsToUsers(long uId , long pId);
+   UsersDto setProductsToUsers(long uId , long pId);
 	
 	
 	
