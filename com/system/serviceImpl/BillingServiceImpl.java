@@ -1,22 +1,21 @@
-package com.system.service;
+package com.system.serviceImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.system.dto.BillingDto;
 import com.system.exception.ResourceNotFound;
 import com.system.model.Billing;
 import com.system.model.Products;
 import com.system.model.Users;
 import com.system.repositary.BillingRepositary;
-import com.system.repositary.ProductsRepositary;
 import com.system.repositary.UsersRepositary;
+import com.system.service.BillingService;
 
 @Service
 public class BillingServiceImpl  implements BillingService {
@@ -26,18 +25,28 @@ public class BillingServiceImpl  implements BillingService {
 	
 	@Autowired
 	private UsersRepositary  uBillService;
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	
 	@Override
-	public Billing addBilling(Billing billing) {
+	public BillingDto addBilling(Billing billing) {
 		// TODO Auto-generated method stub
-		return billingRepositary.save(billing);
+		Billing b =  billingRepositary.save(billing);
+		BillingDto bDto = modelMapper.map(b, BillingDto.class);
+		return bDto;
+		
 	}
 		
 	@Override
-	public Billing getBillById(long id) {
+	public BillingDto getBillById(long id) {
 		// TODO Auto-generated method stub
-		return billingRepositary.findById(id).orElseThrow(() -> new ResourceNotFound("Bill", "Id", id));
+		Billing b =  billingRepositary.findById(id).orElseThrow(() ->
+		new ResourceNotFound("Billing", "Id", id));
+		BillingDto bDto = modelMapper.map(b, BillingDto.class);
+
+		return bDto;
+	
 	}
 
 	@Override
@@ -54,9 +63,11 @@ public class BillingServiceImpl  implements BillingService {
 	}
 
 	@Override
-	public List<Billing> getAllBill() {
+	public List<BillingDto> getAllBill() {
 		// TODO Auto-generated method stub
-		return billingRepositary.findAll();
+		List<Billing> billList =  billingRepositary.findAll();
+		List<BillingDto> billDtoList = billList.stream().map(a ->modelMapper.map(billList, BillingDto.class)).toList();
+		return billDtoList;
 	}
 
 

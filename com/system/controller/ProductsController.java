@@ -13,34 +13,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.dto.ProductsDto;
 import com.system.model.Products;
-import com.system.service.ProductsServiceImpl;
+import com.system.serviceImpl.ProductsServiceImpl;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/products")
 public class ProductsController {
 	
 	@Autowired
 	private ProductsServiceImpl prodservice;
 	
-	@PostMapping("/addProduct")
-	public ResponseEntity<Products> addProducts(@RequestBody Products products) {
+	@PostMapping("/addproduct")
+	public ResponseEntity<ProductsDto> addProducts(@RequestBody Products products) {
 		return new ResponseEntity<>(prodservice.addProducts(products)  ,HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/{pId}")
-	public ResponseEntity<Products> getProdutsById(@PathVariable long pId) {
+	@GetMapping("/{pid}")
+	public ResponseEntity<ProductsDto> getProdutsById(@PathVariable(name = "pid") long pId) {
 		return new ResponseEntity<>(prodservice.getProdutsById(pId)  ,HttpStatus.OK);
 
 		
 	}
-	@GetMapping("/allProduct")
-	public ResponseEntity<List<Products>> getAllProducts(){
+	@GetMapping
+	public ResponseEntity<List<ProductsDto>> getAllProducts(){
 		return new ResponseEntity<>(prodservice.getAllProducts()  ,HttpStatus.OK);
 	}
 	
-	@GetMapping("/user/{uId}")
-	public ResponseEntity<List<Products>> findByUserId(@PathVariable long uId ){
+	@GetMapping("/user/{uid}")
+	public ResponseEntity<List<Products>> findByUserId(@PathVariable(name = "uid") long uId ){
 		return new ResponseEntity<>(prodservice.findByUserId(uId)   , HttpStatus.OK);
 	}
 	
