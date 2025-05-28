@@ -1,20 +1,47 @@
 package com.system.serviceImpl;
 
-public class UserProductsServiceImpl {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.system.model.Products;
+import com.system.model.UserProducts;
+import com.system.model.Users;
+import com.system.repositary.ProductsRepositary;
+import com.system.repositary.UserProductsRepositary;
+import com.system.repositary.UsersRepositary;
+import com.system.service.UserProductsService;
+
+@Service
+public class UserProductsServiceImpl implements UserProductsService{
+	@Autowired
+	private UsersRepositary userupRepositary;
+	@Autowired
+	private ProductsRepositary productupRepositary;
+	@Autowired
+	private UserProductsRepositary  userProductsRepositary ;
+	
+	
+  public String assignProductToUser( Integer userId,  Integer productId,Integer quantity) {
+
+      Users user = userupRepositary.findById(userId).orElse(null);
+      Products product = productupRepositary.findById(productId).orElse(null);
+
+      if (user == null || product == null) {
+          return "Invalid user or product ID.";
+      }
+
+      UserProducts userProduct = new UserProducts();
+      userProduct.setUser(user);
+      userProduct.setProduct(product);
+      userProduct.setQuantity(quantity);
+
+      userProductsRepositary.save(userProduct);
+
+      return "Product assigned to user successfully.";
+  }
 
 }
-//package com.system.controller;
-//
-//import com.system.model.Products;
-//import com.system.model.UserProducts;
-//import com.system.model.Users;
-//import com.system.repository.ProductRepository;
-//import com.system.repository.UserProductsRepository;
-//import com.system.repository.UsersRepository;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
+
 //@RestController
 //@RequestMapping("/user-products")
 //public class UserProductController {
