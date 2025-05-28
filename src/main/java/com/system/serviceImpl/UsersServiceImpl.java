@@ -35,15 +35,16 @@ public class UsersServiceImpl implements UsersService {
 
 
 	@Override
-	public UsersDto addUser(Users user) {
+	public Users addUser(Users user) {
 		// TODO Auto-generated method stub
 		Users u = userRepositary.save(user);
-		UsersDto u1 = modelMapper.map(u,UsersDto.class);
-		return u1;
+//		UsersDto u1 = modelMapper.map(u,UsersDto.class);
+		return u;
 	}
-
+ 
+//	 get user and billing  details using thier ids
 	@Override
-	public UsersDto getUserById(Integer uId , Integer bId) {
+	public Users getUserById(Integer uId , Integer bId) {
 		// TODO Auto-generated method stub
 		Users u =  userRepositary.findById(uId).orElseThrow(() -> 
 		new ReourceNotFoundException("User Id Not Found On this UserID : " + uId));
@@ -61,35 +62,35 @@ public class UsersServiceImpl implements UsersService {
 		// billing 
 		userDto.setBId(b.getBId());		
 		userDto.setBAmount(b.getBAmount());
-		return userDto;
+		return u;
 		
 	}
 
 	@Override
-	public List<UsersDto> getAllUsers() {
+	public List<Users> getAllUsers() {
 		// TODO Auto-generated method stub
 		List<Users> list =  userRepositary.findAll();
-		List<UsersDto> list1 = list.stream().map(a ->modelMapper.map(a , UsersDto.class)).toList();
-		return list1;
+//		List<UsersDto> list1 = list.stream().map(a -> modelMapper.map(a , UsersDto.class)).toList();
+		return list;
 	}
 
 	
-	@Override
-	public UsersDto setProductsToUsers(Integer uId, Integer pId) {
-		// TODO Auto-generated method stub
-		Users user = userRepositary.findById(uId).orElseThrow(() -> 
-		new ReourceNotFoundException("User Id Not Found On this UserID : " + uId));
-		modelMapper.map(user, UsersDto.class);	
-	
-		Products products = pUserRepositary.findById(pId).orElseThrow(() -> 
-		new ReourceNotFoundException("Products Id Not Found On this UserID : " + pId));
-		
-		products.setUser(user);
-		user.getPId().add(products);
-		pUserRepositary.save(products);
-		
-		return userDto;
-	}
+//	@Override
+//	public UsersDto setProductsToUsers(Integer uId, Integer productId) {
+//		// TODO Auto-generated method stub
+//		Users user = userRepositary.findById(uId).orElseThrow(() -> 
+//		new ReourceNotFoundException("User Id Not Found On this UserID : " + uId));
+//		modelMapper.map(user, UsersDto.class);	
+//	
+//		Products products = pUserRepositary.findById(productId).orElseThrow(() -> 
+//		new ReourceNotFoundException("Products Id Not Found On this UserID : " + productId));
+//		
+//		products.setUser(user);
+//		user.getProductId().add(products);
+//		pUserRepositary.save(products);
+//		
+//		return userDto;
+//	}
 		
 }
 

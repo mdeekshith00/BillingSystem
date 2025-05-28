@@ -30,22 +30,23 @@ public class BillingServiceImpl  implements BillingService {
 	
 	
 	@Override
-	public BillingDto addBilling(Billing billing) {
+	public Billing addBilling(Billing billing) {
 		// TODO Auto-generated method stub
 		Billing b =  billingRepositary.save(billing);
-		BillingDto bDto = modelMapper.map(b, BillingDto.class);
-		return bDto;
+//		BillingDto bDto = modelMapper.map(b, BillingDto.class);
+		return b;
 		
 	}
 		
 	@Override
-	public BillingDto getBillById(Integer id) {
+	public Billing getBillById(Integer id) {
 		// TODO Auto-generated method stub
 		Billing b =  billingRepositary.findById(id).orElseThrow(() ->
 		new ReourceNotFoundException("Billing Id Not Found On this" + id));
-		BillingDto bDto = modelMapper.map(b, BillingDto.class);
+		
+//		BillingDto bDto = modelMapper.map(b, BillingDto.class);
 
-		return bDto;
+		return b;
 	
 	}
 
@@ -63,38 +64,38 @@ public class BillingServiceImpl  implements BillingService {
 	}
 
 	@Override
-	public List<BillingDto> getAllBill() {
+	public List<Billing> getAllBill() {
 		// TODO Auto-generated method stub
 		List<Billing> billList =  billingRepositary.findAll();
-		List<BillingDto> billDtoList = billList.stream().map(a ->modelMapper.map(billList, BillingDto.class)).toList();
-		return billDtoList;
+//		List<BillingDto> billDtoList = billList.stream().map(a ->modelMapper.map(billList, BillingDto.class)).toList();
+		return billList;
 	}
 
 
-	@Override
-	public String addBillsForUser(Integer uId) {
-		// TODO Auto-generated method stub
-		    Users user = uBillService.findById(uId)
-				        .orElseThrow(() -> new ReourceNotFoundException("Billing Id Not Found On this UserId : " + uId));
-				
-				    List<Products> userProducts = user.getPId(); 
-				
-				    BigDecimal totalAmount = userProducts.stream()
-				        .map(Products::getMRP)
-				        .filter(Objects::nonNull)
-//				        .filter(mrp -> mrp != null)
-				        .reduce(BigDecimal.ZERO, BigDecimal::add);
-				
-				    Billing billing = billingRepositary.findByUser(user);
-
-				
-				    billing.setUser(user);
-				    billing.setBAmount(totalAmount);
-				
-				    billingRepositary.save(billing);
-				
-				    return "Billing generated for user " + user.getUName() + ": Rs. " + totalAmount;
-				}
+//	@Override
+//	public String addBillsForUser(Integer uId) {
+//		// TODO Auto-generated method stub
+//		    Users user = uBillService.findById(uId)
+//				        .orElseThrow(() -> new ReourceNotFoundException("Billing Id Not Found On this UserId : " + uId));
+//				
+//				    List<Products> userProducts = user.getProductId(); 
+//				
+//				    BigDecimal totalAmount = userProducts.stream()
+//				        .map(Products::getMRP)
+//				        .filter(Objects::nonNull)
+////				        .filter(mrp -> mrp != null)
+//				        .reduce(BigDecimal.ZERO, BigDecimal::add);
+//				
+//				    Billing billing = billingRepositary.findByUser(user);
+//
+//				
+//				    billing.setUser(user);
+//				    billing.setBAmount(totalAmount);
+//				
+//				    billingRepositary.save(billing);
+//				
+//				    return "Billing generated for user " + user.getUName() + ": Rs. " + totalAmount;
+//				}
 
 	
 			

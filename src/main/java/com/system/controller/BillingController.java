@@ -25,7 +25,7 @@ public class BillingController {
 	private BillingServiceImpl bill1Service1;
 	
 	@PostMapping("/add") 
-	public ResponseEntity<BillingDto> createBill(@RequestBody Billing billing) {
+	public ResponseEntity<Billing> createBill(@RequestBody Billing billing) {
 		return new ResponseEntity<>(bill1Service1.addBilling(billing) ,HttpStatus.OK);	
 	}
 	
@@ -34,23 +34,23 @@ public class BillingController {
 		return new ResponseEntity<>(bill1Service1.addBilling(billing, uId) ,HttpStatus.OK);	
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<BillingDto> getBillById(@PathVariable Integer id) {
+	public ResponseEntity<Billing> getBillById(@PathVariable Integer id) {
 		return new ResponseEntity<>(bill1Service1.getBillById(id) ,HttpStatus.OK);
 		
 	}
 	@GetMapping
-	public ResponseEntity<List<BillingDto>> getAllBill(){
+	public ResponseEntity<List<Billing>> getAllBill(){
 		return new ResponseEntity<>(bill1Service1.getAllBill() ,HttpStatus.OK);
 	}
 	
 //	public void someMethod(@RequestParam(value = "uId", required = false) Long uId) {
 //	    // method body
 //	}
-	@GetMapping("/generate")
-	public ResponseEntity<?> generateBill(@RequestParam(value = "uId") Integer uId) {
-		return new ResponseEntity<>(bill1Service1.addBillsForUser(uId) , HttpStatus.OK);
-	
-	}
+//	@GetMapping("/generate")
+//	public ResponseEntity<?> generateBill(@RequestParam(value = "uId") Integer uId) {
+//		return new ResponseEntity<>(bill1Service1.addBillsForUser(uId) , HttpStatus.OK);
+//	
+//	}
 
 
 }

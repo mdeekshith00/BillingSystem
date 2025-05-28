@@ -25,25 +25,25 @@ public class ProductsController {
 	private ProductsServiceImpl prodservice;
 	
 	@PostMapping("/addproduct")
-	public ResponseEntity<ProductsDto> addProducts(@RequestBody Products products) {
+	public ResponseEntity<Products> addProducts(@RequestBody Products products) {
 		return new ResponseEntity<>(prodservice.addProducts(products)  ,HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/{pid}")
-	public ResponseEntity<ProductsDto> getProdutsById(@PathVariable(name = "pid") Integer pId) {
-		return new ResponseEntity<>(prodservice.getProdutsById(pId)  ,HttpStatus.OK);
+	@GetMapping("/{productId}")
+	public ResponseEntity<Products> getProdutsById(@PathVariable Integer productId) {
+		return new ResponseEntity<>(prodservice.getProdutsById(productId)  ,HttpStatus.OK);
 
 		
 	}
 	@GetMapping
-	public ResponseEntity<List<ProductsDto>> getAllProducts(){
+	public ResponseEntity<List<Products>> getAllProducts(){
 		return new ResponseEntity<>(prodservice.getAllProducts()  ,HttpStatus.OK);
 	}
 	
-	@GetMapping("/user/{uid}")
-	public ResponseEntity<List<Products>> findByUserId(@PathVariable(name = "uid") Integer uId ){
-		return new ResponseEntity<>(prodservice.findByUserId(uId)   , HttpStatus.OK);
-	}
+//	@GetMapping("/user/{uid}")
+//	public ResponseEntity<List<Products>> findByUserId(@PathVariable(name = "uid") Integer uId ){
+//		return new ResponseEntity<>(prodservice.findByUserId(uId)   , HttpStatus.OK);
+//	}
 	
 	
 	

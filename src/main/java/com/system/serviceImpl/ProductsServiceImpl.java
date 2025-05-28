@@ -29,48 +29,48 @@ public class ProductsServiceImpl implements ProductsService {
 	
 	
 	@Override
-	public ProductsDto addProducts(Products products) {
+	public Products addProducts(Products products) {
 		// TODO Auto-generated method stub
 	   Products p =  prodRepositary.save(products);
-	   ProductsDto productdto = modelMapper.map(p, ProductsDto.class);
-	   return productdto;
+//	   ProductsDto productdto = modelMapper.map(p, ProductsDto.class);
+	   return p;
 	}
 
 	@Override
-	public List<ProductsDto> getAllProducts() {
+	public List<Products> getAllProducts() {
 		// TODO Auto-generated method stub
 		List<Products> p  =  prodRepositary.findAll();
-		List<ProductsDto> dtoList = p.stream().map(a ->modelMapper.map(a,ProductsDto.class)).toList();
-		return dtoList;
+//		List<ProductsDto> dtoList = p.stream().map(a ->modelMapper.map(a,ProductsDto.class)).toList();
+		return p;
 	}
 
 	@Override
-	public ProductsDto getProdutsById(Integer pId) {
+	public Products getProdutsById(Integer productId) {
 		// TODO Auto-generated method stub
 		
-		Products p = prodRepositary.findById(pId).orElseThrow(() -> 
-		new ProductNotFoundException("Product Not Found on This Id:"));
+		Products p = prodRepositary.findById(productId).orElseThrow(() -> 
+		new ProductNotFoundException("Product Not Found on This Id:" + productId));
 		
-		productsDto.setPName(p.getPName());
-		productsDto.setPCompany(p.getPCompany());
-		productsDto.setMRP(p.getMRP());
-		productsDto.setExpiryDate(p.getExpiryDate());
-		productsDto.setUser(p.getUser());
+//		productsDto.setPName(p.getProductName());
+//		productsDto.setPCompany(p.getProductCompany());
+//		productsDto.setMRP(p.getMRP());
+//		productsDto.setExpiryDate(p.getExpiryDate());
+//		productsDto.setUser(p.getUser());
 		
-		return productsDto;
+		return p;
 		
 		
 		
 	}
 
-	public List<Products> findByUserId(Integer uId) {
-		// TODO Auto-generated method stub
-		Users u = uProductRepositary.findById(uId).orElseThrow(() -> 
-		new ProductNotFoundException("Product Not found On this UserId:" + uId));
-		
-		 List<Products> userProducts = u.getPId(); 
-			return userProducts;
-	}
+//	public List<Products> findByUserId(Integer uId) {
+//		// TODO Auto-generated method stub
+//		Users u = uProductRepositary.findById(uId).orElseThrow(() -> 
+//		new ProductNotFoundException("Product Not found On this UserId:" + uId));
+//		
+//		 List<Products> userProducts = u.getProductId(); 
+//			return userProducts;
+//	}
 
 	
 }

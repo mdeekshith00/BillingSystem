@@ -21,8 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -51,8 +49,7 @@ public class Billing {
 	@JoinColumn(name = "admin_id")
 	private Admin admin;
 	
-//	 @OneToMany(mappedBy = "billing", cascade = CascadeType.ALL)
-//	    private List<BillingItem> items;
+
 
 
 

@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.annotation.Generated;
@@ -31,6 +32,7 @@ import lombok.NoArgsConstructor;
 public class Admin  implements UserDetails  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("aId")
 	private Integer aId;
 	
 	@Column

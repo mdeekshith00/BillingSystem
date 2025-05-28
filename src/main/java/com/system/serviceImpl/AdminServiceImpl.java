@@ -31,6 +31,7 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	@Override
 	public Admin register(Admin admin) {
 		// TODO Auto-generated method stub
+		
 		admin.setName(admin.getName());
 		admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
 		admin.setRole(admin.getRole());
@@ -41,13 +42,15 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	@Override
 	public Admin signUp(Admin admin) {
 		// TODO Auto-generated method stub
-		return null;
+		admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
+		return adminRepositary.save(admin);
 	}
 
 	@Override
 	public Admin getById(Integer aId) {
 		// TODO Auto-generated method stub
-		return null;
+		return adminRepositary.findById(aId).orElseThrow(() -> 
+		new ReourceNotFoundException("Admin Id Not ound On This AdminId:" + aId));
 	}
 	
 

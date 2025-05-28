@@ -6,12 +6,12 @@ import com.system.model.Billing;
 
 public interface BillingService {
 	
-	BillingDto addBilling(Billing billing);
+	Billing addBilling(Billing billing);
 	Billing addBilling(Billing billing, Integer uId);
-	BillingDto getBillById(Integer bId);
-	List<BillingDto> getAllBill();
+	Billing getBillById(Integer bId);
+	List<Billing> getAllBill();
 	
-	String addBillsForUser(Integer uId);
+//	String addBillsForUser(Integer uId);
 
 
 }
