@@ -9,9 +9,13 @@ public interface UsersService {
 	
 	Users addUser(Users user);
 	Users getUserById(Integer uId);
-	Users getUserById(Integer uId, Integer bId);
+	Users getBillByUserId(Integer uId, Integer bId);
 	List<Users> getAllUsers();
-//   UsersDto setProductsToUsers(Integer uId , Integer pId);
+	
+	Users setProductsToUsers(Integer uId, Integer productId, int quantity);
+	
+	UsersDto getUserDetailsById(Integer uId);
+  
 	
 	
 	

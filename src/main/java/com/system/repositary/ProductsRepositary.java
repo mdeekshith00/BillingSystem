@@ -6,4 +6,6 @@ import com.system.model.Products;
 
 public interface ProductsRepositary extends JpaRepository<Products, Integer>{
 	
+	Products findByProductName(String productName);
+	
 }

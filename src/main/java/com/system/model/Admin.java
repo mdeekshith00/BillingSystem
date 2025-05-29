@@ -46,8 +46,8 @@ public class Admin  implements UserDetails  {
 	@OneToMany(mappedBy = "admin" , cascade = CascadeType.ALL)
 	private List<Billing> bId;
 	
-	@OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-	private List<Users> uId;
+//	@OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+//	private List<Users> uId;
 
 
 	@Override

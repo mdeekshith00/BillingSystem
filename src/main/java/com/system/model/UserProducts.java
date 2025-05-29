@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,6 +38,13 @@ public class UserProducts {
 	    @ManyToOne
 	    @JoinColumn(name = "product_id")
 	    private Products product;
+	    
+//	    @OneToMany(mappedBy = "products" , cascade = CascadeType.ALL)
+//		private List<BillingItem> BillingItem;
+	    
+	    @ManyToOne
+	    @JoinColumn(name = "itemId")
+	    private BillingItem billingItem;
 
 	    private int quantity;
     

@@ -1,25 +1,25 @@
 package com.system.dto;
 
+import java.math.BigDecimal;
 import org.springframework.stereotype.Component;
-
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Component
-public class AdminDto {
+public class UserProductsDto {
 	
-	private Integer aId;
+	 private Integer UserProductId;
+	    
+	    private BigDecimal mrp; 
+	    
 	
-	private String name;
-	
-	private String role;
-	
-	
+
+	    private int quantity;
 
 }

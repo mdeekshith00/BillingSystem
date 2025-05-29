@@ -9,5 +9,8 @@ public interface BillingItemService {
 	BillingItem addBillingItem(BillingItem billingItem);
 	BillingItem getBiilItemById(Integer itemId);
 	List<BillingItem> getAllBillingItems();
+	
+	String generateFullBillForUser(Integer uId);
+//   String generateBil(Integer uId);
 
 }

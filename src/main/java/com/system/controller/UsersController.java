@@ -36,18 +36,21 @@ public class UsersController {
 	}
 	@GetMapping("/details")
 	public ResponseEntity<Users> getUserById(@RequestParam Integer uId , @RequestParam Integer bId) {
-		return new ResponseEntity<Users>(uService.getUserById(uId, bId) , HttpStatus.OK);
+		return new ResponseEntity<Users>(uService.getBillByUserId(uId, bId) , HttpStatus.OK);
 		
 	}
 	@GetMapping("/id/{uId}")
 	public ResponseEntity<Users> getUserById(@PathVariable Integer uId){
 		return new ResponseEntity<Users>(uService.getUserById(uId) , HttpStatus.OK);
 	}
-	
-//	@PostMapping("/user/{uId}/products/{pId}")
-//	public ResponseEntity<UsersDto> setProductsToUsers(@PathVariable Integer uId,@PathVariable Integer pId) {
-//		return new ResponseEntity<UsersDto>(uService.setProductsToUsers(uId, pId) ,  HttpStatus.OK);
-//	}
+	@PostMapping("/assign")
+	public ResponseEntity<Users> setProductsToUsers(@RequestParam Integer uId,@RequestParam Integer productId, @RequestParam int quantity) {
+		return new ResponseEntity<Users>(uService.setProductsToUsers(uId, productId, quantity) , HttpStatus.OK);
+	}
+	@GetMapping("/getAllDeatils/{uId}")
+	public ResponseEntity<UsersDto> getUserDetailsById(@PathVariable Integer uId) {
+		return new ResponseEntity<UsersDto>(uService.getUserDetailsById(uId) , HttpStatus.OK);
+	}
 
 }
 

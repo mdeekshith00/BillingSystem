@@ -1,5 +1,7 @@
 package com.system.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +35,20 @@ public class UserProductsServiceImpl implements UserProductsService{
       UserProducts userProduct = new UserProducts();
       userProduct.setUser(user);
       userProduct.setProduct(product);
+      userProduct.setMrp(product.getMRP());
       userProduct.setQuantity(quantity);
 
       userProductsRepositary.save(userProduct);
 
       return "Product assigned to user successfully.";
   }
+
+
+@Override
+public List<UserProducts> getAllUserProducts() {
+	// TODO Auto-generated method stub
+	return userProductsRepositary.findAll();
+}
 
 }
 

@@ -51,20 +51,18 @@ public class Products {
 	private LocalDate expiryDate;
 	@Column
 	private String unit; 
+	
 	@Column
 	private LocalDateTime createdAt; //  when the product was added.
 	@Column
 	private LocalDateTime updatedAt; // when the product was updated at store 
 	
-//	@ManyToOne
-//	@JoinColumn(name = "u_id" )
-//	private Users user;
+
 	
 	@OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)
 	private List<UserProducts> userProducts;
 	
-	@OneToMany(mappedBy = "products" , cascade = CascadeType.ALL)
-	private List<BillingItem> BillingItem;
+
 
 }
 
