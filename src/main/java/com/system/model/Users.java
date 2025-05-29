@@ -12,6 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +47,10 @@ public class Users {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Billing> bId;
+	
+	@ManyToOne
+	@JoinColumn(name = "aId")
+	private Admin admin;
 
 
 		

@@ -39,6 +39,10 @@ public class UsersController {
 		return new ResponseEntity<Users>(uService.getUserById(uId, bId) , HttpStatus.OK);
 		
 	}
+	@GetMapping("/id/{uId}")
+	public ResponseEntity<Users> getUserById(@PathVariable Integer uId){
+		return new ResponseEntity<Users>(uService.getUserById(uId) , HttpStatus.OK);
+	}
 	
 //	@PostMapping("/user/{uId}/products/{pId}")
 //	public ResponseEntity<UsersDto> setProductsToUsers(@PathVariable Integer uId,@PathVariable Integer pId) {

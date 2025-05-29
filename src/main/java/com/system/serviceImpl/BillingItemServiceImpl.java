@@ -39,5 +39,19 @@ public class BillingItemServiceImpl  implements BillingItemService {
 		return billingItemRepositary.findAll();
 	}
 	
+	//
+//  @PrePersist
+//  @PreUpdate
+//  public void calculateTotal() {
+//      if (product != null && price == null) {
+//          this.price = product.getPrice();
+//      }
+//      if (price != null) {
+//          this.totalAmount = price.multiply(BigDecimal.valueOf(quantity));
+//      }
+//      this.createdAt = LocalDateTime.now();
+//  }
+//}
+	
 
 }

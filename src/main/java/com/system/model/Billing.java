@@ -33,8 +33,8 @@ public class Billing {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Integer bId;
 	
-	@Column
-	private BigDecimal bAmount;
+	
+//	private BigDecimal bAmount;
 
 
 	@ManyToOne

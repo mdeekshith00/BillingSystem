@@ -1,5 +1,7 @@
 package com.system.model;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -25,6 +27,8 @@ public class UserProducts {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @JsonProperty("UserProductId")
 	    private Integer UserProductId;
+	    
+	    private BigDecimal mrp; // copied from products
 
 	    @ManyToOne
 	    @JoinColumn(name = "user_id")

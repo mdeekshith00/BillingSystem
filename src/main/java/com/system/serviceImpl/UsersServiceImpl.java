@@ -61,7 +61,7 @@ public class UsersServiceImpl implements UsersService {
 
 		// billing 
 		userDto.setBId(b.getBId());		
-		userDto.setBAmount(b.getBAmount());
+//		userDto.setBAmount(b.getBAmount());
 		return u;
 		
 	}
@@ -72,6 +72,13 @@ public class UsersServiceImpl implements UsersService {
 		List<Users> list =  userRepositary.findAll();
 //		List<UsersDto> list1 = list.stream().map(a -> modelMapper.map(a , UsersDto.class)).toList();
 		return list;
+	}
+
+	@Override
+	public Users getUserById(Integer uId) {
+		// TODO Auto-generated method stub
+		return userRepositary.findById(uId).orElseThrow(() -> 
+		new ReourceNotFoundException("User Id Not Found On this UserID : " + uId));
 	}
 
 	
