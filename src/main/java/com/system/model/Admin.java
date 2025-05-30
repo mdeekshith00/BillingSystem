@@ -36,7 +36,7 @@ public class Admin  implements UserDetails  {
 	private Integer aId;
 	
 	@Column
-	private String name;
+	private String username;
 	@Column
 	private String password;
 	@Column
@@ -67,7 +67,7 @@ public class Admin  implements UserDetails  {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return name;
+		return username;
 	}
 	
 

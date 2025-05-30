@@ -19,7 +19,7 @@ public class AdminController {
     @Autowired
     private AdminServiceImpl adminService;
 
-    @PostMapping("/register")
+    @PostMapping("/sign-in")
     public ResponseEntity<Admin> register(@RequestBody Admin admin) {
         return new ResponseEntity<>(adminService.register(admin), HttpStatus.CREATED);
     }
@@ -29,9 +29,9 @@ public class AdminController {
         return new ResponseEntity<>(adminService.getById(aId), HttpStatus.OK);
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login Successfully";
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Admin admin) {
+    	 return new ResponseEntity<>(adminService.verify(admin), HttpStatus.CREATED);
     }
 
     @PostMapping("/signup")
@@ -41,5 +41,5 @@ public class AdminController {
 }
 
 	
-
+//eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDaGludHUiLCJpYXQiOjE3NDg2MTI4MTEsImV4cCI6MTc0ODYzMDgxMX0.St4kuF_UZHPEwELI9hrZd9Foemfmsu7i0MHajaCEj3U
 

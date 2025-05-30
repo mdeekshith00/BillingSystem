@@ -11,9 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class BillingSystemConfig implements WebMvcConfigurer {
-	
-	@Bean
-	public ModelMapper modelMapper()
+
+    @Bean
+    ModelMapper modelMapper()
 	{
 		return new ModelMapper();
 	}
