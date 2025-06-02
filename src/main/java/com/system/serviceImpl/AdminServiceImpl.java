@@ -72,7 +72,7 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	public Admin getById(Integer aId) {
 		// TODO Auto-generated method stub
 		return adminRepositary.findById(aId).orElseThrow(() -> 
-		new ReourceNotFoundException("Admin Id Not ound On This AdminId:" + aId));
+		new ReourceNotFoundException("Admin Id Not Found On This AdminId:" + aId));
 	}
 
 	@Override	

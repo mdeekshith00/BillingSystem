@@ -67,10 +67,6 @@ public class BillingItemServiceImpl  implements BillingItemService {
          if (userProducts == null || userProducts.isEmpty()) {
              throw new ReourceNotFoundException("No products found in cart for user ID: " + uId);
          }
-
-       
-         
-         
          Billing billing = new Billing();
          billing.setUser(user);
          billing = bBillingRepositary.save(billing); 
