@@ -3,6 +3,7 @@ package com.system.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ public class AdminController {
     private AdminServiceImpl adminService;
 
     @PostMapping("/sign-in")
+    @PreAuthorize("Admin")
     public ResponseEntity<Admin> register(@RequestBody Admin admin) {
         return new ResponseEntity<>(adminService.register(admin), HttpStatus.CREATED);
     }
@@ -41,5 +43,4 @@ public class AdminController {
 }
 
 	
-//eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJDaGludHUiLCJpYXQiOjE3NDg2MTI4MTEsImV4cCI6MTc0ODYzMDgxMX0.St4kuF_UZHPEwELI9hrZd9Foemfmsu7i0MHajaCEj3U
 

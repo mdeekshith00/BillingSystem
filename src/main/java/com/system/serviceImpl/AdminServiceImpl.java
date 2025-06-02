@@ -45,11 +45,6 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	    );
 	}
 
-
-
-
-
-	
 	@Override
 	@PreAuthorize("Admin")
 	public Admin register(Admin admin) {
@@ -64,6 +59,7 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	@Override
 	public Admin signUp(Admin admin) {
 		// TODO Auto-generated method stub
+		admin.setUsername(admin.getUsername());
 		admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
 		return adminRepositary.save(admin);
 	}
@@ -81,10 +77,9 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 		Authentication authentication  = 
 		authManager.authenticate(new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword()));
 		
-         if(authentication.isAuthenticated())
-//        	 return "success";
+         if(authentication.isAuthenticated()) {
          return jwtservice.generateToken(admin.getUsername());
-
+         }
          return "fail";
 
 

@@ -37,7 +37,6 @@ public class UsersController {
 	@GetMapping("/details")
 	public ResponseEntity<Users> getUserById(@RequestParam Integer uId , @RequestParam Integer bId) {
 		return new ResponseEntity<Users>(uService.getBillByUserId(uId, bId) , HttpStatus.OK);
-		
 	}
 	@GetMapping("/id/{uId}")
 	public ResponseEntity<Users> getUserById(@PathVariable Integer uId){
@@ -47,6 +46,8 @@ public class UsersController {
 	public ResponseEntity<Users> setProductsToUsers(@RequestParam Integer uId,@RequestParam Integer productId, @RequestParam int quantity) {
 		return new ResponseEntity<Users>(uService.setProductsToUsers(uId, productId, quantity) , HttpStatus.OK);
 	}
+	
+	// need to change 
 	@GetMapping("/getAllDeatils/{uId}")
 	public ResponseEntity<UsersDto> getUserDetailsById(@PathVariable Integer uId) {
 		return new ResponseEntity<UsersDto>(uService.getUserDetailsById(uId) , HttpStatus.OK);

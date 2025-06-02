@@ -42,7 +42,4 @@ public class BillingItemController {
 	}
 
 }
-//@PostMapping("/generate")
-//public ResponseEntity<?> generateBil(@RequestParam Integer uId) {
-//	return new ResponseEntity<>(billingService.generateBil(uId) , HttpStatus.OK);
-//}
+

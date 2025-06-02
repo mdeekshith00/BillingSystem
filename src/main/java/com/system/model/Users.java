@@ -48,9 +48,6 @@ public class Users {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Billing> bId;
 
-//	@ManyToOne
-//	@JoinColumn(name = "aId")
-//	private Admin admin;
 
 
 		

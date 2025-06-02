@@ -53,10 +53,6 @@ public class BillingItemServiceImpl  implements BillingItemService {
 		return billingItemRepositary.findAll();
 	}
 
-
-
-
-     
      @Override
      public String generateFullBillForUser(Integer uId) {
          Users user = bUsersRepositary.findById(uId)
@@ -70,10 +66,7 @@ public class BillingItemServiceImpl  implements BillingItemService {
          Billing billing = new Billing();
          billing.setUser(user);
          billing = bBillingRepositary.save(billing); 
-         
-//         Admin admin = new Admin();
-//         billing.setAdmin(admin);
-//         billing = bBillingRepositary.save(billing); 
+
          
          List<BillingItem> billingItems = new ArrayList<>();
          BigDecimal grandTotal = BigDecimal.ZERO;
@@ -83,7 +76,6 @@ public class BillingItemServiceImpl  implements BillingItemService {
              int quantity = userProduct.getQuantity();
              BigDecimal totalAmount = price.multiply(BigDecimal.valueOf(quantity));
 
-             // Create BillingItem
              BillingItem item = new BillingItem();
              item.setPrice(price);
              item.setQuantity(quantity);
@@ -107,50 +99,5 @@ public class BillingItemServiceImpl  implements BillingItemService {
          return "Total Bill for user " + user.getUName() + ": ₹" + grandTotal;
      }
 
-
-
 }
-
-	
-//public String generateBil(Integer uId) {
-//// TODO Auto-generated method stub
-//  Users user = bUsersRepositary.findById(uId)
-//          .orElseThrow(() -> new ReourceNotFoundException("User ID not found: " + uId));
-//
-//  List<UserProducts> unbilledProducts = user.getUserProducts().stream()
-//          .filter(p -> p.getBillingItem() == null)
-//          .toList();
-//
-//  if (unbilledProducts.isEmpty()) {
-//      return "No unbilled products found for the user.";
-//  }
-//
-//  // Create new BillingItem
-//  BillingItem billingItem = new BillingItem();
-//  billingItem.setCreatedAt(LocalDateTime.now());
-//
-//  int totalQuantity = 0;
-//  BigDecimal totalAmount = BigDecimal.ZERO;
-//  BigDecimal unitPrice = BigDecimal.ZERO; 
-//
-//  for (UserProducts up : unbilledProducts) {
-//      int qty = up.getQuantity();
-//      BigDecimal price = up.getMrp();
-//
-//      totalQuantity += qty;
-//      unitPrice = price; 
-//      totalAmount = totalAmount.add(price.multiply(BigDecimal.valueOf(qty)));
-//
-//      up.setBillingItem(billingItem); 
-//  }
-//
-//  billingItem.setPrice(unitPrice); 
-//  billingItem.setQuantity(totalQuantity);
-//  billingItem.setTotalAmount(totalAmount);
-//  billingItem.setUserProductId(unbilledProducts);
-//
-//  billingItemRepositary.save(billingItem); 
-//
-//  return "Cart Bill generated for user: " + totalAmount;
-//}
 

@@ -42,16 +42,6 @@ public class BillingController {
 	public ResponseEntity<List<Billing>> getAllBill(){
 		return new ResponseEntity<>(bill1Service1.getAllBill() ,HttpStatus.OK);
 	}
-	
-//	public void someMethod(@RequestParam(value = "uId", required = false) Long uId) {
-//	    // method body
-//	}
-//	@GetMapping("/generate")
-//	public ResponseEntity<?> generateBill(@RequestParam(value = "uId") Integer uId) {
-//		return new ResponseEntity<>(bill1Service1.addBillsForUser(uId) , HttpStatus.OK);
-//	
-//	}
-
 
 }
 

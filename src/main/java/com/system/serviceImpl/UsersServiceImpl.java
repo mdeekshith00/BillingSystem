@@ -1,10 +1,10 @@
 package com.system.serviceImpl;
 
 import java.util.List;
+import java.util.Random;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.system.dto.UsersDto;
@@ -32,8 +32,6 @@ public class UsersServiceImpl implements UsersService {
 	private BillingRepositary bUserRepositary;
 	@Autowired
 	private UserProductsRepositary upUserRepositary;
-
-	
 	@Autowired
 	private ModelMapper modelMapper;
 	
@@ -95,8 +93,8 @@ public class UsersServiceImpl implements UsersService {
 	    Products product = pUserRepositary.findById(productId)
 	        .orElseThrow(() -> new ReourceNotFoundException("Product Id Not Found: " + productId));
 
-	    // Create UserProducts entry
 	    UserProducts userProduct = new UserProducts();
+	 
 	    userProduct.setUser(user);
 	    userProduct.setProduct(product);
 	    userProduct.setMrp(product.getMRP());
@@ -104,9 +102,11 @@ public class UsersServiceImpl implements UsersService {
 
 	    upUserRepositary.save(userProduct);
 	    user.getUserProducts().add(userProduct);
-
+	    
 	    return user;
 	}
+
+
 
 	// model mapper is not working , so i choose  manual to retrive data using userDto
 	@Override
@@ -190,12 +190,6 @@ public class UsersServiceImpl implements UsersService {
 //		
 //		return userdto;
 //	}
-	
-
-
-
-	
-	
 
 		
 }

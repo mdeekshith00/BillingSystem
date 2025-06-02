@@ -40,12 +40,4 @@ public class ProductsController {
 		return new ResponseEntity<>(prodservice.getAllProducts()  ,HttpStatus.OK);
 	}
 	
-//	@GetMapping("/user/{uid}")
-//	public ResponseEntity<List<Products>> findByUserId(@PathVariable(name = "uid") Integer uId ){
-//		return new ResponseEntity<>(prodservice.findByUserId(uId)   , HttpStatus.OK);
-//	}
-	
-	
-	
-
 }
