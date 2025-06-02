@@ -94,12 +94,16 @@ public class UsersServiceImpl implements UsersService {
 	        .orElseThrow(() -> new ReourceNotFoundException("Product Id Not Found: " + productId));
 
 	    UserProducts userProduct = new UserProducts();
-	 
+	
+	    
 	    userProduct.setUser(user);
 	    userProduct.setProduct(product);
 	    userProduct.setMrp(product.getMRP());
+//	    userProduct.setQuantity(userProduct.getQuantity()-quantity);
 	    userProduct.setQuantity(quantity);
-
+	    
+	  
+	
 	    upUserRepositary.save(userProduct);
 	    user.getUserProducts().add(userProduct);
 	    

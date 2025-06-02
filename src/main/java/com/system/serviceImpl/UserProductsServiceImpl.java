@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.system.exception.ReourceNotFoundException;
 import com.system.model.Products;
 import com.system.model.UserProducts;
 import com.system.model.Users;
@@ -25,19 +26,26 @@ public class UserProductsServiceImpl implements UserProductsService{
 	
   public String assignProductToUser( Integer userId,  Integer productId,Integer quantity) {
 
-      Users user = userupRepositary.findById(userId).orElse(null);
-      Products product = productupRepositary.findById(productId).orElse(null);
+      Users user = userupRepositary.findById(userId)
+    		  .orElseThrow(() -> new ReourceNotFoundException("User Id Not Found On this UserID : " + userId));
+      Products product = productupRepositary.findById(productId)
+    		  .orElseThrow(() -> new ReourceNotFoundException("Product Id Not Found: " + productId));
 
-      if (user == null || product == null) {
+//      Integer check = product.setQuantityAvailable(product.getQuantityAvailable()-quantity);
+      if (user == null && product == null) {
           return "Invalid user or product ID.";
       }
+      
+      
 
       UserProducts userProduct = new UserProducts();
       userProduct.setUser(user);
       userProduct.setProduct(product);
       userProduct.setMrp(product.getMRP());
       userProduct.setQuantity(quantity);
-
+      
+  
+      productupRepositary.save(product);
       userProductsRepositary.save(userProduct);
 
       return "Product assigned to user successfully.";

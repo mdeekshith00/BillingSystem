@@ -24,10 +24,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "productId")
 //@JsonAutoDetect(getterVisibility=Visibility.NONE)
 @Entity
