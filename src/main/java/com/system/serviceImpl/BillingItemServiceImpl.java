@@ -73,9 +73,7 @@ public class BillingItemServiceImpl  implements BillingItemService {
 
          for (UserProducts userProduct : userProducts) {
              BigDecimal price = userProduct.getMrp();
-             if(userProduct.getQuantity() > 0 ) {
              int quantity = userProduct.getQuantity();
-            
              BigDecimal totalAmount = price.multiply(BigDecimal.valueOf(quantity));
              
              BillingItem item = new BillingItem();
@@ -91,11 +89,7 @@ public class BillingItemServiceImpl  implements BillingItemService {
              billingItems.add(item);
 
              grandTotal = grandTotal.add(totalAmount);
-             } else {
-            	 throw new ReourceNotFoundException("Product Quantity is null on this product :");
              }
-         }
-
        
          billing.setItemId(billingItems);
 

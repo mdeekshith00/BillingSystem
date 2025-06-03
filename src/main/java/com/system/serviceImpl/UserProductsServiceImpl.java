@@ -95,4 +95,3 @@ public List<UserProducts> getAllUserProducts() {
 //        return "Product assigned to user successfully.";
 //    }
 //}
-//POST http://localhost:8080/user-products/assign?userId=1&productId=5&quantity=3

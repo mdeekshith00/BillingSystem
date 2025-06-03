@@ -92,21 +92,32 @@ public class UsersServiceImpl implements UsersService {
 
 	    Products product = pUserRepositary.findById(productId)
 	        .orElseThrow(() -> new ReourceNotFoundException("Product Id Not Found: " + productId));
+	    
 
+	    Integer check = product.getQuantityAvailable();
+	
+	    if(check > quantity) {
 	    UserProducts userProduct = new UserProducts();
 	
-	    
 	    userProduct.setUser(user);
 	    userProduct.setProduct(product);
 	    userProduct.setMrp(product.getMRP());
-//	    userProduct.setQuantity(userProduct.getQuantity()-quantity);
 	    userProduct.setQuantity(quantity);
-	    
-	  
+
+	    user.getUserProducts().add(userProduct);
+
 	
 	    upUserRepositary.save(userProduct);
-	    user.getUserProducts().add(userProduct);
 	    
+	    product.setQuantityAvailable(check-quantity);  
+	    pUserRepositary.save(product);
+	    
+	    }
+	    else {
+	     new ReourceNotFoundException("Product quantity is Not Avaliable on this Store ,"
+	     		+ " please select Other Products" + uId);
+	    }
+	   
 	    return user;
 	}
 
