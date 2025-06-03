@@ -8,10 +8,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,6 +32,7 @@ import lombok.NoArgsConstructor;
 public class Admin  implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@JsonManagedReference
 	@JsonProperty("aId")
 	private Integer aId;
 	

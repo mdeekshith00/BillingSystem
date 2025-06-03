@@ -16,10 +16,8 @@ public class UserProductsDto {
 	
 	 private Integer UserProductId;
 	    
-	    private BigDecimal mrp; 
-	    
-	
-
-	    private int quantity;
+	 private BigDecimal mrp; 
+	 
+	 private int quantity;
 
 }

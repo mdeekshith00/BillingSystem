@@ -2,6 +2,7 @@ package com.system.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -26,6 +27,7 @@ public class UserProducts {
 	
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//	    @JsonBackReference
 	    @JsonProperty("UserProductId")
 	    private Integer UserProductId;
 	    

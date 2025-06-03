@@ -16,8 +16,8 @@ public class AdminDto {
 	
 	private Integer aId;
 	
-	private String name;
-	
+	private String userName;
+
 	private String role;
 	
 	

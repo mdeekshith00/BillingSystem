@@ -33,8 +33,8 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	private final AdminRepositary adminRepositary;
 	
 	private final JWTService jwtservice;
-	
-	AuthenticationManager authManager;
+	@Autowired
+	 AuthenticationManager authManager;
 	
 	private final ModelMapper modelMapper;
 	
@@ -59,11 +59,12 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	public AdminDto register(AdminModelDto adminModelDto) {
 		// TODO Auto-generated method stub
 		
-		Admin admin = modelMapper.map(adminModelDto, Admin.class);
+		Admin admin =new Admin();
 		
 		admin.setUserName(adminModelDto.getUserName());
 		admin.setPassword(bCryptPasswordEncoder.encode(adminModelDto.getPassword()));
 		admin.setRole(adminModelDto.getRole());
+		admin=adminRepositary.save(admin);
 		
 		return modelMapper.map(admin, AdminDto.class) ;
 	}
@@ -71,10 +72,13 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	@Override
 	public AdminDto signUp(AdminModelDto adminModelDto) {
 		// TODO Auto-generated method stub
-		Admin admin = modelMapper.map(adminModelDto, Admin.class);
-		
+
+		Admin admin = new Admin();
 		admin.setUserName(adminModelDto.getUserName());
 		admin.setPassword(bCryptPasswordEncoder.encode(adminModelDto.getPassword()));
+		admin.setRole(adminModelDto.getRole());
+		
+		admin=adminRepositary.save(admin);
 		
 		return  modelMapper.map(admin, AdminDto.class);
 	}
@@ -102,9 +106,8 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
          return jwtservice.generateToken(admin.getUsername());
          }
          return "fail";
-
-
 	}
+	
 	@Override
 	public Optional findByUsername(String username) {
 		// TODO Auto-generated method stub
