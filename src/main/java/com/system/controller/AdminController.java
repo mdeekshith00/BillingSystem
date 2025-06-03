@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.dto.AdminDto;
 import com.system.model.Admin;
+import com.system.modeldto.AdminModelDto;
 import com.system.serviceImpl.AdminServiceImpl;
 
 @RestController
@@ -22,23 +24,23 @@ public class AdminController {
 
     @PostMapping("/sign-in")
     @PreAuthorize("Admin")
-    public ResponseEntity<Admin> register(@RequestBody Admin admin) {
-        return new ResponseEntity<>(adminService.register(admin), HttpStatus.CREATED);
+    public ResponseEntity<AdminDto> register(@RequestBody AdminModelDto adminModelDto) {
+        return new ResponseEntity<>(adminService.register(adminModelDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/users/{aId}")
-    public ResponseEntity<Admin> getById(@PathVariable Integer aId) {
+    public ResponseEntity<AdminDto> getById(@PathVariable Integer aId) {
         return new ResponseEntity<>(adminService.getById(aId), HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Admin admin) {
-    	 return new ResponseEntity<>(adminService.verify(admin), HttpStatus.CREATED);
+    public ResponseEntity<?> login(@RequestBody AdminModelDto adminModelDto) {
+    	 return new ResponseEntity<>(adminService.verify(adminModelDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Admin> signUp(@RequestBody Admin admin) {
-        return new ResponseEntity<>(adminService.signUp(admin), HttpStatus.CREATED);
+    public ResponseEntity<AdminDto> signUp(@RequestBody AdminModelDto adminModelDto) {
+        return new ResponseEntity<>(adminService.signUp(adminModelDto), HttpStatus.CREATED);
     }
 }
 

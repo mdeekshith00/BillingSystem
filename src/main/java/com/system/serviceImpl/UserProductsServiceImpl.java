@@ -2,9 +2,11 @@ package com.system.serviceImpl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.system.dto.UserProductsDto;
 import com.system.exception.ReourceNotFoundException;
 import com.system.model.Products;
 import com.system.model.UserProducts;
@@ -14,14 +16,19 @@ import com.system.repositary.UserProductsRepositary;
 import com.system.repositary.UsersRepositary;
 import com.system.service.UserProductsService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class UserProductsServiceImpl implements UserProductsService{
-	@Autowired
-	private UsersRepositary userupRepositary;
-	@Autowired
-	private ProductsRepositary productupRepositary;
-	@Autowired
-	private UserProductsRepositary  userProductsRepositary ;
+
+	private final UsersRepositary userupRepositary;
+
+	private final ProductsRepositary productupRepositary;
+
+	private final UserProductsRepositary  userProductsRepositary ;
+	
+	private final ModelMapper modelMapper;
 	
 	
   public String assignProductToUser( Integer userId,  Integer productId,Integer quantity) {
@@ -53,9 +60,12 @@ public class UserProductsServiceImpl implements UserProductsService{
 
 
 @Override
-public List<UserProducts> getAllUserProducts() {
+public List<UserProductsDto> getAllUserProducts() {
 	// TODO Auto-generated method stub
-	return userProductsRepositary.findAll();
+	List<UserProducts> productList =  userProductsRepositary.findAll();
+	List<UserProductsDto> productDaoList = productList.stream().
+			map( a -> modelMapper.map(productList, UserProductsDto.class)).toList();
+	return productDaoList;
 }
 
 }

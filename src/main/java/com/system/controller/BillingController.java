@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.dto.BillingDto;
 import com.system.model.Billing;
+import com.system.modeldto.BillingModelDto;
 import com.system.serviceImpl.BillingServiceImpl;
 
 @RestController
@@ -25,21 +25,17 @@ public class BillingController {
 	private BillingServiceImpl bill1Service1;
 	
 	@PostMapping("/add") 
-	public ResponseEntity<Billing> createBill(@RequestBody Billing billing) {
-		return new ResponseEntity<>(bill1Service1.addBilling(billing) ,HttpStatus.OK);	
+	public ResponseEntity<BillingDto> createBill(@RequestBody BillingModelDto billingModelDtoling) {
+		return new ResponseEntity<>(bill1Service1.addBilling(billingModelDtoling) ,HttpStatus.OK);	
 	}
-	
-	@PostMapping("/add/{uid}") 
-	public ResponseEntity<Billing> addBilling(@RequestBody Billing billing , @PathVariable(name ="uid") Integer uId) {
-		return new ResponseEntity<>(bill1Service1.addBilling(billing, uId) ,HttpStatus.OK);	
-	}
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Billing> getBillById(@PathVariable Integer id) {
+	public ResponseEntity<BillingDto> getBillById(@PathVariable Integer id) {
 		return new ResponseEntity<>(bill1Service1.getBillById(id) ,HttpStatus.OK);
 		
 	}
 	@GetMapping
-	public ResponseEntity<List<Billing>> getAllBill(){
+	public ResponseEntity<List<BillingDto>> getAllBill(){
 		return new ResponseEntity<>(bill1Service1.getAllBill() ,HttpStatus.OK);
 	}
 

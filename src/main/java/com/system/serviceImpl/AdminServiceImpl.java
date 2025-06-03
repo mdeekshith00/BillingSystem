@@ -2,6 +2,7 @@ package com.system.serviceImpl;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,30 +14,38 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.system.dto.AdminDto;
 import com.system.exception.ReourceNotFoundException;
 import com.system.model.Admin;
+import com.system.modeldto.AdminModelDto;
 import com.system.repositary.AdminRepositary;
 import com.system.service.AdminService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	
-	@Autowired
-	private AdminRepositary adminRepositary;
-	@Autowired
-	private JWTService jwtservice;
-	@Autowired
+	
+	private final AdminRepositary adminRepositary;
+	
+	private final JWTService jwtservice;
+	
 	AuthenticationManager authManager;
+	
+	private final ModelMapper modelMapper;
 	
 	
 	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 	
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	    Admin admin = adminRepositary.findByUsername(username)
-	        .orElseThrow(() -> new UsernameNotFoundException("Admin not found with username: " + username));
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+	    Admin admin = adminRepositary.findByUserName(userName)
+	        .orElseThrow(() -> new UsernameNotFoundException("Admin not found with username: " + userName));
 
 	    return new org.springframework.security.core.userdetails.User(
 	        admin.getUsername(),
@@ -47,33 +56,45 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 
 	@Override
 	@PreAuthorize("Admin")
-	public Admin register(Admin admin) {
+	public AdminDto register(AdminModelDto adminModelDto) {
 		// TODO Auto-generated method stub
 		
-		admin.setUsername(admin.getUsername());
-		admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
-		admin.setRole(admin.getRole());
-		return adminRepositary.save(admin);
+		Admin admin = modelMapper.map(adminModelDto, Admin.class);
+		
+		admin.setUserName(adminModelDto.getUserName());
+		admin.setPassword(bCryptPasswordEncoder.encode(adminModelDto.getPassword()));
+		admin.setRole(adminModelDto.getRole());
+		
+		return modelMapper.map(admin, AdminDto.class) ;
 	}
 
 	@Override
-	public Admin signUp(Admin admin) {
+	public AdminDto signUp(AdminModelDto adminModelDto) {
 		// TODO Auto-generated method stub
-		admin.setUsername(admin.getUsername());
-		admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
-		return adminRepositary.save(admin);
+		Admin admin = modelMapper.map(adminModelDto, Admin.class);
+		
+		admin.setUserName(adminModelDto.getUserName());
+		admin.setPassword(bCryptPasswordEncoder.encode(adminModelDto.getPassword()));
+		
+		return  modelMapper.map(admin, AdminDto.class);
 	}
 
 	@Override
-	public Admin getById(Integer aId) {
+	public AdminDto getById(Integer aId) {
 		// TODO Auto-generated method stub
-		return adminRepositary.findById(aId).orElseThrow(() -> 
+		
+		Admin admin =  adminRepositary.findById(aId).orElseThrow(() -> 
 		new ReourceNotFoundException("Admin Id Not Found On This AdminId:" + aId));
+		
+		return modelMapper.map(admin, AdminDto.class);
+		
 	}
 
 	@Override	
-	public String verify(Admin admin) {
+	public String verify(AdminModelDto adminModelDto) {
 		// TODO Auto-generated method stub
+		Admin admin = modelMapper.map(adminModelDto, Admin.class);
+		
 		Authentication authentication  = 
 		authManager.authenticate(new UsernamePasswordAuthenticationToken(admin.getUsername(), admin.getPassword()));
 		

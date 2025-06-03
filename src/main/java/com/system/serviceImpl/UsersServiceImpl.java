@@ -14,40 +14,46 @@ import com.system.model.BillingItem;
 import com.system.model.Products;
 import com.system.model.UserProducts;
 import com.system.model.Users;
+import com.system.modeldto.UsersModelDto;
 import com.system.repositary.BillingRepositary;
 import com.system.repositary.ProductsRepositary;
 import com.system.repositary.UserProductsRepositary;
 import com.system.repositary.UsersRepositary;
 import com.system.service.UsersService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class UsersServiceImpl implements UsersService {
 	
-	@Autowired
-	private UsersRepositary userRepositary;
 	
-	@Autowired
-	private ProductsRepositary pUserRepositary;
-	@Autowired
-	private BillingRepositary bUserRepositary;
-	@Autowired
-	private UserProductsRepositary upUserRepositary;
-	@Autowired
-	private ModelMapper modelMapper;
+	private final UsersRepositary userRepositary;
+	
+	private final ProductsRepositary pUserRepositary;
+	
+	private final BillingRepositary bUserRepositary;
+	
+	private final UserProductsRepositary upUserRepositary;
+	
+	private final ModelMapper modelMapper;
 	
 
 
 	@Override
-	public Users addUser(Users user) {
+	public UsersDto addUser(UsersModelDto userModelDto) {
 		// TODO Auto-generated method stub
-		Users u = userRepositary.save(user);
-//		UsersDto u1 = modelMapper.map(u,UsersDto.class);
-		return u;
+		
+		Users user = modelMapper.map(userModelDto, Users.class);
+		userRepositary.save(user);
+
+		UsersDto u1 = modelMapper.map(user,UsersDto.class);
+		return u1;
 	}
  
 //	 get user and billing  details using thier ids
 	@Override
-	public Users getBillByUserId(Integer uId , Integer bId) {
+	public UsersDto getBillByUserId(Integer uId , Integer bId) {
 		// TODO Auto-generated method stub
 		Users u =  userRepositary.findById(uId).orElseThrow(() -> 
 		new ReourceNotFoundException("User Id Not Found On this UserID : " + uId));
@@ -64,29 +70,33 @@ public class UsersServiceImpl implements UsersService {
 
 		// billing 
 		userDto.setBId(b.getBId());		
-//		userDto.setBAmount(b.getBAmount());
-		return u;
+		
+		UsersDto userDto1 = modelMapper.map(u, UsersDto.class);
+		return userDto1;
 		
 	}
 
 	@Override
-	public List<Users> getAllUsers() {
+	public List<UsersDto> getAllUsers() {
 		// TODO Auto-generated method stub
 		List<Users> list =  userRepositary.findAll();
-//		List<UsersDto> list1 = list.stream().map(a -> modelMapper.map(a , UsersDto.class)).toList();
-		return list;
+		List<UsersDto> list1 = list.stream().map(a -> modelMapper.map(a , UsersDto.class)).toList();
+		return list1;
 	}
 
 	@Override
-	public Users getUserById(Integer uId) {
+	public UsersDto getUserById(Integer uId) {
 		// TODO Auto-generated method stub
-		return userRepositary.findById(uId).orElseThrow(() -> 
+		Users user =  userRepositary.findById(uId).orElseThrow(() -> 
 		new ReourceNotFoundException("User Id Not Found On this UserID : " + uId));
+		
+		UsersDto u =  modelMapper.map(user, UsersDto.class);
+		return u;
 	}
 
 	
 	@Override
-	public Users setProductsToUsers(Integer uId, Integer productId, int quantity) {
+	public UsersDto setProductsToUsers(Integer uId, Integer productId, int quantity) {
 	    Users user = userRepositary.findById(uId)
 	        .orElseThrow(() -> new ReourceNotFoundException("User Id Not Found: " + uId));
 
@@ -118,7 +128,7 @@ public class UsersServiceImpl implements UsersService {
 	     		+ " please select Other Products" + uId);
 	    }
 	   
-	    return user;
+	    return modelMapper.map(user, UsersDto.class);
 	}
 
 

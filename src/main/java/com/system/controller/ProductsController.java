@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.system.dto.ProductsDto;
 import com.system.model.Products;
+import com.system.modeldto.ProductsModelDto;
 import com.system.serviceImpl.ProductsServiceImpl;
 
 @RestController
@@ -25,18 +26,18 @@ public class ProductsController {
 	private ProductsServiceImpl prodservice;
 	
 	@PostMapping("/addproduct")
-	public ResponseEntity<Products> addProducts(@RequestBody Products products) {
-		return new ResponseEntity<>(prodservice.addProducts(products)  ,HttpStatus.CREATED);
+	public ResponseEntity<ProductsDto> addProducts(@RequestBody ProductsModelDto productsModelDto) {
+		return new ResponseEntity<>(prodservice.addProducts(productsModelDto)  ,HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{productId}")
-	public ResponseEntity<Products> getProdutsById(@PathVariable Integer productId) {
+	public ResponseEntity<ProductsDto> getProdutsById(@PathVariable Integer productId) {
 		return new ResponseEntity<>(prodservice.getProdutsById(productId)  ,HttpStatus.OK);
 
 		
 	}
 	@GetMapping
-	public ResponseEntity<List<Products>> getAllProducts(){
+	public ResponseEntity<List<ProductsDto>> getAllProducts(){
 		return new ResponseEntity<>(prodservice.getAllProducts()  ,HttpStatus.OK);
 	}
 	

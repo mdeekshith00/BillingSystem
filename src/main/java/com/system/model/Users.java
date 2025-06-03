@@ -38,9 +38,7 @@ public class Users {
 	private String eMail;
 	
 	
-	
-//	@OneToMany(mappedBy = "user" , cascade = CascadeType.ALL)
-//	private List<Products> productId;
+
 	
 	  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserProducts> userProducts;

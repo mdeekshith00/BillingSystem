@@ -29,14 +29,14 @@ import lombok.NoArgsConstructor;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "aId")
 
 @Entity
-public class Admin  implements UserDetails  {
+public class Admin  implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("aId")
 	private Integer aId;
 	
 	@Column
-	private String username;
+	private String userName;
 	@Column
 	private String password;
 	@Column
@@ -63,8 +63,9 @@ public class Admin  implements UserDetails  {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return username;
+		return userName;
 	}
+
 	
 
 }

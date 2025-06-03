@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.dto.UserProductsDto;
 import com.system.model.UserProducts;
 import com.system.serviceImpl.UserProductsServiceImpl;
 
@@ -24,10 +25,10 @@ public class UserProductsController {
 	@PostMapping("/assign")
   public ResponseEntity<String> assignProductToUser(@RequestParam Integer userId,  @RequestParam Integer productId,
 		                                               @RequestParam Integer quantity) {
-		return new ResponseEntity<String>(userProductService.assignProductToUser(userId, productId, quantity) , HttpStatus.OK);
+		return new ResponseEntity<>(userProductService.assignProductToUser(userId, productId, quantity) , HttpStatus.OK);
 	}
 	@GetMapping
-	public  ResponseEntity<List<UserProducts>> getAllUserProducts(){
+	public  ResponseEntity<List<UserProductsDto>> getAllUserProducts(){
 		return new ResponseEntity<>(userProductService.getAllUserProducts()  , HttpStatus.OK);
 	}
 

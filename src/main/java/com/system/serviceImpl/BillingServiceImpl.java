@@ -1,8 +1,6 @@
 package com.system.serviceImpl;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,66 +9,56 @@ import org.springframework.stereotype.Service;
 import com.system.dto.BillingDto;
 import com.system.exception.ReourceNotFoundException;
 import com.system.model.Billing;
-import com.system.model.Products;
 import com.system.model.Users;
+import com.system.modeldto.BillingModelDto;
 import com.system.repositary.BillingRepositary;
 import com.system.repositary.UsersRepositary;
 import com.system.service.BillingService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class BillingServiceImpl  implements BillingService {
 	
-	@Autowired
-	private BillingRepositary billingRepositary;
 	
-	@Autowired
-	private UsersRepositary  uBillService;
-	@Autowired
-	private ModelMapper modelMapper;
+	private  final BillingRepositary billingRepositary;
+	
+	private final ModelMapper modelMapper;
 	
 	
 	@Override
-	public Billing addBilling(Billing billing) {
+	public BillingDto addBilling(BillingModelDto billingModelDtoling) {
 		// TODO Auto-generated method stub
-		Billing b =  billingRepositary.save(billing);
-//		BillingDto bDto = modelMapper.map(b, BillingDto.class);
-		return b;
+		
+		Billing billing = modelMapper.map(billingModelDtoling, Billing.class);
+		billingRepositary.save(billing);
+				
+		BillingDto billingDto = modelMapper.map(billing, BillingDto.class);
+		return billingDto;
 		
 	}
 		
 	@Override
-	public Billing getBillById(Integer id) {
+	public BillingDto getBillById(Integer id) {
 		// TODO Auto-generated method stub
-		Billing b =  billingRepositary.findById(id).orElseThrow(() ->
+		Billing billing =  billingRepositary.findById(id).orElseThrow(() ->
 		new ReourceNotFoundException("Billing Id Not Found On this" + id));
 		
-//		BillingDto bDto = modelMapper.map(b, BillingDto.class);
+		BillingDto bDto = modelMapper.map(billing, BillingDto.class);
 
-		return b;
+		return bDto;
 	
 	}
-
 	@Override
-	public Billing addBilling(Billing billing , Integer uId) {
-		// TODO Auto-generated method stub
-		
-		Users userb = uBillService.findById(uId).orElseThrow(() -> 
-		new ReourceNotFoundException("Billing Id Not Found On this UserID : " + uId));
-		
-		
-		billing.setUser(userb);
-		Billing bill = billingRepositary.save(billing);
-		return bill;
-	}
-
-	@Override
-	public List<Billing> getAllBill() {
+	public List<BillingDto> getAllBill() {
 		// TODO Auto-generated method stub
 		List<Billing> billList =  billingRepositary.findAll();
-//		List<BillingDto> billDtoList = billList.stream().map(a ->modelMapper.map(billList, BillingDto.class)).toList();
-		return billList;
+		List<BillingDto> billDtoList = billList.stream()
+				.map(a ->modelMapper.map(billList, BillingDto.class)).toList();
+		return billDtoList;
 	}
-
+}
 
 //	@Override
 //	public String addBillsForUser(Integer uId) {
@@ -96,10 +84,20 @@ public class BillingServiceImpl  implements BillingService {
 //				
 //				    return "Billing generated for user " + user.getUName() + ": Rs. " + totalAmount;
 //				}
-
+//	public BillingDto addBilling(Billing billing , Integer uId) {
+//		// TODO Auto-generated method stub
+//		
+//		Users userb = uBillService.findById(uId).orElseThrow(() -> 
+//		new ReourceNotFoundException("Billing Id Not Found On this UserID : " + uId));
+//		
+//		
+//		billing.setUser(userb);
+//		Billing bill = billingRepositary.save(billing);
+//		return bill;
+//	}
 	
 			
 
-}
+//}
 
 

@@ -10,45 +10,46 @@ import com.system.dto.ProductsDto;
 import com.system.exception.ProductNotFoundException;
 import com.system.model.Products;
 import com.system.model.Users;
+import com.system.modeldto.ProductsModelDto;
 import com.system.repositary.ProductsRepositary;
 import com.system.repositary.UsersRepositary;
 import com.system.service.ProductsService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class ProductsServiceImpl implements ProductsService {
 	
-	@Autowired
-    private ProductsRepositary prodRepositary;
-	@Autowired
-	private UsersRepositary uProductRepositary;
 	
-	@Autowired
-	private ProductsDto productsDto;
-	@Autowired
-	private ModelMapper modelMapper;
+    private final ProductsRepositary prodRepositary;
+	
+	private final ModelMapper modelMapper;
 	
 	
 	@Override
-	public Products addProducts(Products products) {
-		// TODO Auto-generated method stub
-	   Products p =  prodRepositary.save(products);
-//	   ProductsDto productdto = modelMapper.map(p, ProductsDto.class);
-	   return p;
-	}
-
-	@Override
-	public List<Products> getAllProducts() {
-		// TODO Auto-generated method stub
-		List<Products> p  =  prodRepositary.findAll();
-//		List<ProductsDto> dtoList = p.stream().map(a ->modelMapper.map(a,ProductsDto.class)).toList();
-		return p;
-	}
-
-	@Override
-	public Products getProdutsById(Integer productId) {
+	public ProductsDto addProducts(ProductsModelDto productsModelDto) {
 		// TODO Auto-generated method stub
 		
-		Products p = prodRepositary.findById(productId).orElseThrow(() -> 
+	   Products product =  modelMapper.map(productsModelDto, Products.class);
+	   prodRepositary.save(product);
+	   ProductsDto productdto = modelMapper.map(product, ProductsDto.class);
+	   return productdto;
+	}
+
+	@Override
+	public List<ProductsDto> getAllProducts() {
+		// TODO Auto-generated method stub
+		List<Products> products  =  prodRepositary.findAll();
+		List<ProductsDto> productList = products.stream().map(a ->modelMapper.map(a,ProductsDto.class)).toList();
+		return productList;
+	}
+
+	@Override
+	public ProductsDto getProdutsById(Integer productId) {
+		// TODO Auto-generated method stub
+		
+		Products product = prodRepositary.findById(productId).orElseThrow(() -> 
 		new ProductNotFoundException("Product Not Found on This Id:" + productId));
 		
 //		productsDto.setPName(p.getProductName());
@@ -57,7 +58,8 @@ public class ProductsServiceImpl implements ProductsService {
 //		productsDto.setExpiryDate(p.getExpiryDate());
 //		productsDto.setUser(p.getUser());
 		
-		return p;
+		
+		return modelMapper.map(product, ProductsDto.class);
 		
 		
 		

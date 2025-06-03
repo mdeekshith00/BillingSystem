@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
+
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "bId")
 @Entity
 public class Billing {

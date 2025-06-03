@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.system.dto.BillingItemDto;
 import com.system.model.BillingItem;
+import com.system.modeldto.BillingItemModelDto;
 import com.system.serviceImpl.BillingItemServiceImpl;
 
 @RestController
@@ -23,15 +25,15 @@ public class BillingItemController {
 	private BillingItemServiceImpl billingService;
 	
 	@PostMapping("/add")
-	public ResponseEntity<BillingItem> addBillingItem(@RequestBody BillingItem billingItem) {
-		return new ResponseEntity<>(billingService.addBillingItem(billingItem) , HttpStatus.CREATED);
+	public ResponseEntity<BillingItemDto> addBillingItem(@RequestBody BillingItemModelDto billingItemModelDto) {
+		return new ResponseEntity<>(billingService.addBillingItem(billingItemModelDto) , HttpStatus.CREATED);
 	}
 	@GetMapping("/{itemId}")
-	public ResponseEntity<BillingItem> getBiilItemById(@PathVariable Integer itemId) {
+	public ResponseEntity<BillingItemDto> getBiilItemById(@PathVariable Integer itemId) {
 		return new ResponseEntity<>(billingService.getBiilItemById(itemId) , HttpStatus.OK);
 	}
 	@GetMapping
-	public ResponseEntity<List<BillingItem>> getAllBillingItems() {
+	public ResponseEntity<List<BillingItemDto>> getAllBillingItems() {
 		return new ResponseEntity<>(billingService.getAllBillingItems() , HttpStatus.OK);
 	}
 	

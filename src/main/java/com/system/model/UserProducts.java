@@ -38,10 +38,7 @@ public class UserProducts {
 	    @ManyToOne
 	    @JoinColumn(name = "product_id")
 	    private Products product;
-	    
-//	    @OneToMany(mappedBy = "products" , cascade = CascadeType.ALL)
-//		private List<BillingItem> BillingItem;
-	    
+
 	    @ManyToOne
 	    @JoinColumn(name = "itemId")
 	    private BillingItem billingItem;

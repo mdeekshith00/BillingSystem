@@ -1,12 +1,14 @@
 package com.system.service;
 
 import java.util.List;
-import com.system.model.Products;
+
+import com.system.dto.ProductsDto;
+import com.system.modeldto.ProductsModelDto;
 
 public interface ProductsService {
-	Products addProducts(Products products);
-	List<Products> getAllProducts();
-	Products getProdutsById(Integer productId);
+	ProductsDto addProducts(ProductsModelDto productsModelDto);
+	List<ProductsDto> getAllProducts();
+	ProductsDto getProdutsById(Integer productId);
 	
 //	List<Products> findByUserId(Integer uId);
 

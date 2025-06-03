@@ -5,52 +5,66 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.system.dto.BillingItemDto;
 import com.system.exception.ReourceNotFoundException;
-import com.system.model.Admin;
 import com.system.model.Billing;
 import com.system.model.BillingItem;
 import com.system.model.UserProducts;
 import com.system.model.Users;
+import com.system.modeldto.BillingItemModelDto;
 import com.system.repositary.BillingItemRepositary;
 import com.system.repositary.BillingRepositary;
 import com.system.repositary.UsersRepositary;
 import com.system.service.BillingItemService;
 
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Service
 public class BillingItemServiceImpl  implements BillingItemService {
 	
-	@Autowired
-	private BillingItemRepositary billingItemRepositary;
-	@Autowired
-	private UsersRepositary bUsersRepositary;
-	@Autowired
-	private BillingRepositary bBillingRepositary;
+	
+	private final  BillingItemRepositary billingItemRepositary;
+	
+	private final  UsersRepositary bUsersRepositary;
+	
+	private final BillingRepositary bBillingRepositary;
+	
+	private final  ModelMapper modelMapper;
 	
 	
 		
 
 	@Override
-	public BillingItem addBillingItem(BillingItem billingItem) {
+	public BillingItemDto addBillingItem(BillingItemModelDto billingItemModelDto) {
 		// TODO Auto-generated method stub
-		return billingItemRepositary.save(billingItem);
+		BillingItem billingItem = modelMapper.map(billingItemModelDto, BillingItem.class);
+		 billingItemRepositary.save(billingItem);
+		 
+		 return modelMapper.map(billingItem, BillingItemDto.class);
 	}
 
 
 	@Override
-	public BillingItem getBiilItemById(Integer itemId) {
+	public BillingItemDto getBiilItemById(Integer itemId) {
 		// TODO Auto-generated method stub
-		return billingItemRepositary.findById(itemId).orElseThrow(() ->
+		BillingItem billingItem = billingItemRepositary.findById(itemId).orElseThrow(() ->
 		new ReourceNotFoundException("BillingItems Id Not Found On this ID:" +itemId ));
+		
+		return modelMapper.map(billingItem, BillingItemDto.class);
 	}
 
 	@Override
-	public List<BillingItem> getAllBillingItems() {
+	public List<BillingItemDto> getAllBillingItems() {
 		// TODO Auto-generated method stub
-		return billingItemRepositary.findAll();
+		List<BillingItem> itemList =  (List<BillingItem>) billingItemRepositary.findAll();
+		List<BillingItemDto> itemDtoList = itemList.stream()
+				.map(a -> modelMapper.map(itemList, BillingItemDto.class)).toList();
+		return itemDtoList;
 	}
 
      @Override
