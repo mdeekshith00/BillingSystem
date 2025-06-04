@@ -47,6 +47,6 @@ public class ProductsDto {
 	
 	private LocalDateTime updatedAt; // when the product was updated at store 
 	
-	private List<UserProducts> userProducts;
+	
 
 }

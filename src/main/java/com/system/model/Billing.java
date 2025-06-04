@@ -2,7 +2,9 @@ package com.system.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -33,9 +35,11 @@ public class Billing {
 
 	@ManyToOne
 	@JoinColumn(name="user_id")
+	@JsonBackReference
 	private Users user;
 	
 	 @OneToMany(mappedBy = "billing" , cascade = CascadeType.ALL)
+	 @JsonManagedReference
 		private List<BillingItem> itemId;
 	
 	@ManyToOne

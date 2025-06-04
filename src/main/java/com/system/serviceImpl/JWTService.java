@@ -48,18 +48,10 @@ public class JWTService {
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 5))
 				.signWith(getKey())
                 .compact();
-				
-//		return "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI"
-//				+ "6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.NHVaYe26MbtOYhSKkoKYdFVomg4i"
-//				+ "8ZJd8_-RU8VNbftc4TSMb4bXP3l3YlNWACwyXPGffz5aXHc6lty1Y2t4SWRqGteragsVdZufDn5BlnJl9pdR_kdV"
-//				+ "FUsra2rWKEofkZeIC4yWytE58sMIihvo9H1ScmmVwBcQP6XETqYd0aSHp1gOa9RdUPDvoXQ5oqygTqVtxaDr6wUFKrKI"
-//				+ "tgBMzWIdNZ6y7O9E0DhEPTbE9rfBo6KTFsHAZnMg4k68CDp2woYIaXbmYTWcvbzIuHO7_37GT79XdIwkm95QJ7hYC9R"
-//				+ "iwrV7mesbY4PAahERJawntho0my942XheVLmGwLMBkQ";
 	}
 
 	private Key getKey() {
 		// TODO Auto-generated method stub
-	
 		byte[] keyBytes = Decoders.BASE64.decode(secertKey);
 		return Keys.hmacShaKeyFor(keyBytes);
 	}

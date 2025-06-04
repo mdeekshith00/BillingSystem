@@ -51,28 +51,11 @@ public class ProductsServiceImpl implements ProductsService {
 		
 		Products product = prodRepositary.findById(productId).orElseThrow(() -> 
 		new ProductNotFoundException("Product Not Found on This Id:" + productId));
-		
-//		productsDto.setPName(p.getProductName());
-//		productsDto.setPCompany(p.getProductCompany());
-//		productsDto.setMRP(p.getMRP());
-//		productsDto.setExpiryDate(p.getExpiryDate());
-//		productsDto.setUser(p.getUser());
-		
-		
+
 		return modelMapper.map(product, ProductsDto.class);
-		
-		
-		
 	}
 
-//	public List<Products> findByUserId(Integer uId) {
-//		// TODO Auto-generated method stub
-//		Users u = uProductRepositary.findById(uId).orElseThrow(() -> 
-//		new ProductNotFoundException("Product Not found On this UserId:" + uId));
-//		
-//		 List<Products> userProducts = u.getProductId(); 
-//			return userProducts;
-//	}
+
 
 	
 }

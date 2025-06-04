@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.dto.UsersDto;
-import com.system.model.Users;
+import com.system.dto.UsersDto1;
 import com.system.modeldto.UsersModelDto;
 import com.system.serviceImpl.UsersServiceImpl;
 
@@ -43,7 +43,7 @@ public class UsersController {
 		return new ResponseEntity<>(uService.getUserById(uId) , HttpStatus.OK);
 	}
 	@PostMapping("/assign")
-	public ResponseEntity<UsersDto> setProductsToUsers(@RequestParam Integer uId,@RequestParam Integer productId, @RequestParam int quantity) {
+	public ResponseEntity<UsersDto1> setProductsToUsers(@RequestParam Integer uId,@RequestParam Integer productId, @RequestParam int quantity) {
 		return new ResponseEntity<>(uService.setProductsToUsers(uId, productId, quantity) , HttpStatus.OK);
 	}
 	

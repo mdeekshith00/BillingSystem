@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -31,7 +31,6 @@ import lombok.NoArgsConstructor;
 public class Products {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	@JsonProperty("productId")
 	private Integer  productId;
 	
@@ -56,7 +55,7 @@ public class Products {
 	private LocalDateTime updatedAt; // when the product was updated at store 
 	
 
-	
+	@JsonBackReference
 	@OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)
 	private List<UserProducts> userProducts;
 	

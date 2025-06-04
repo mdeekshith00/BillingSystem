@@ -28,7 +28,7 @@ public class UsersDto {
 	
 	
 	// user details
-//	private Integer uId;
+	private Integer uId;
 	private String uName;
 	private String mobileNo;
 	private String eMail;
@@ -43,8 +43,8 @@ public class UsersDto {
 
 	// products 
 	private long  pId;
-	private String pName;
-	private String pCompany;
+//	private String pName;
+//	private String pCompany;
 	private BigDecimal MRP;
 	private LocalDate expiryDate;
 	
@@ -52,7 +52,7 @@ public class UsersDto {
 	private long bId;
 	
 	//billingItems
-	private Integer itemId;	 
+//	private Integer itemId;	 
 	private int quantity;
 	private BigDecimal price; 
 	private BigDecimal totalAmount; 

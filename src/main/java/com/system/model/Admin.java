@@ -32,7 +32,6 @@ import lombok.NoArgsConstructor;
 public class Admin  implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@JsonManagedReference
 	@JsonProperty("aId")
 	private Integer aId;
 	
@@ -45,6 +44,7 @@ public class Admin  implements UserDetails {
 	
 	
 	@OneToMany(mappedBy = "admin" , cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Billing> bId;
 	
 	@Override
