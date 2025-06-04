@@ -108,6 +108,7 @@ public class UsersServiceImpl implements UsersService {
 	    UsersDto userDto = new UsersDto();
 
 	    // Set basic user fields
+	    userDto.setUId(u.getUId());
 	    userDto.setUName(u.getUName());
 	    userDto.setMobileNo(u.getMobileNo());
 	    userDto.setEMail(u.getEMail());
