@@ -10,7 +10,6 @@ public interface ProductsService {
 	List<ProductsDto> getAllProducts();
 	ProductsDto getProdutsById(Integer productId);
 	
-//	List<Products> findByUserId(Integer uId);
 
 	
 

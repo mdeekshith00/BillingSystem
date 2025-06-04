@@ -1,5 +1,6 @@
 package com.system.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.system.dto.UserProductsDto;
+import com.system.dto.UsersDto1;
 import com.system.exception.ReourceNotFoundException;
 import com.system.model.Products;
 import com.system.model.UserProducts;
@@ -38,22 +40,34 @@ public class UserProductsServiceImpl implements UserProductsService{
       Products product = productupRepositary.findById(productId)
     		  .orElseThrow(() -> new ReourceNotFoundException("Product Id Not Found: " + productId));
 
-//      Integer check = product.setQuantityAvailable(product.getQuantityAvailable()-quantity);
-      if (user == null && product == null) {
-          return "Invalid user or product ID.";
-      }
-      
-      
+      int available = product.getQuantityAvailable();
 
-      UserProducts userProduct = new UserProducts();
-      userProduct.setUser(user);
-      userProduct.setProduct(product);
-      userProduct.setMrp(product.getMRP());
-      userProduct.setQuantity(quantity);
-      
-  
-      productupRepositary.save(product);
-      userProductsRepositary.save(userProduct);
+	    if (quantity > available) {
+	        throw new ReourceNotFoundException("Product quantity is not available. Requested: " + quantity + ", Available: " + available);
+	    }
+	    if (user.getUserProducts() == null) {
+	        user.setUserProducts(new ArrayList<>());
+	    }
+
+	    UserProducts userProduct = new UserProducts();
+	    userProduct.setUser(user);
+	    userProduct.setProduct(product);
+	    userProduct.setMrp(product.getMRP());
+	    userProduct.setQuantity(quantity);
+
+	  
+	    user.getUserProducts().add(userProduct);
+
+	    userProductsRepositary.save(userProduct);
+
+	    product.setQuantityAvailable(available - quantity);
+	    productupRepositary.save(product);
+
+	    UsersDto1 dto = new UsersDto1();
+	    dto.setUName(user.getUName());
+	    dto.setMobileNo(user.getMobileNo());
+	    dto.setEMail(user.getEMail());
+	    dto.setUserProducts(List.of(userProduct));
 
       return "Product assigned to user successfully.";
   }

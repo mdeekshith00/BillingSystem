@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.system.dto.UsersDto;
 import com.system.dto.UsersDto1;
+import com.system.dto.UsersDto2;
 import com.system.modeldto.UsersModelDto;
 import com.system.serviceImpl.UsersServiceImpl;
 
@@ -34,15 +35,15 @@ public class UsersController {
 		return new ResponseEntity<>(uService.addUser(userModelDto) , HttpStatus.CREATED);
 	}
 	@GetMapping
-	public ResponseEntity<List<UsersDto>> getAllUsers(){
+	public ResponseEntity<List<UsersDto2>> getAllUsers(){
 		return new ResponseEntity<>(uService.getAllUsers() , HttpStatus.OK);
 	}
 	@GetMapping("/details")
-	public ResponseEntity<UsersDto> getUserById(@RequestParam Integer uId , @RequestParam Integer bId) {
+	public ResponseEntity<UsersDto1> getUserById(@RequestParam Integer uId , @RequestParam Integer bId) {
 		return new ResponseEntity<>(uService.getBillByUserId(uId, bId) , HttpStatus.OK);
 	}
 	@GetMapping("/id/{uId}")
-	public ResponseEntity<UsersDto> getUserById(@PathVariable Integer uId){
+	public ResponseEntity<UsersDto2> getUserById(@PathVariable Integer uId){
 		return new ResponseEntity<>(uService.getUserById(uId) , HttpStatus.OK);
 	}
 	@PostMapping("/assign")

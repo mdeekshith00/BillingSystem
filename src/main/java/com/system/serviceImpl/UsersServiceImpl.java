@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.system.dto.UsersDto;
 import com.system.dto.UsersDto1;
+import com.system.dto.UsersDto2;
 import com.system.exception.ReourceNotFoundException;
 import com.system.model.Billing;
 import com.system.model.BillingItem;
@@ -16,7 +17,6 @@ import com.system.model.Products;
 import com.system.model.UserProducts;
 import com.system.model.Users;
 import com.system.modeldto.UsersModelDto;
-import com.system.repositary.BillingItemRepositary;
 import com.system.repositary.BillingRepositary;
 import com.system.repositary.ProductsRepositary;
 import com.system.repositary.UserProductsRepositary;
@@ -55,7 +55,7 @@ public class UsersServiceImpl implements UsersService {
  
 //	 get user and billing  details using thier ids
 	@Override
-	public UsersDto getBillByUserId(Integer uId , Integer bId) {
+	public UsersDto1 getBillByUserId(Integer uId , Integer bId) {
 		// TODO Auto-generated method stub
 		Users u =  userRepositary.findById(uId).orElseThrow(() -> 
 		new ReourceNotFoundException("User Id Not Found On this UserID : " + uId));
@@ -64,26 +64,29 @@ public class UsersServiceImpl implements UsersService {
 		new ReourceNotFoundException("Billing Id Not Found On this UserID : " + bId));
 		
 
-		UsersDto userDto = new UsersDto();
+		UsersDto1 userDto = new UsersDto1();
+		userDto.setUId(u.getUId());
 		userDto.setUName(u.getUName());
 		userDto.setMobileNo(u.getMobileNo());
 		userDto.setEMail(u.getEMail());
 		// billing 
-		userDto.setBId(b.getBId());		
+		userDto.setBId(List.of(b));
 		
 		return userDto;
 		
 	}
 
 	@Override
-	public List<UsersDto> getAllUsers() {
+	public List<UsersDto2> getAllUsers() {
 		// TODO Auto-generated method stub
 		List<Users> list =  userRepositary.findAll();
 	
-		List<UsersDto> list1 = list.stream().map(user -> {
-		    UsersDto dto = new UsersDto();
+		List<UsersDto2> list1 = list.stream().map(user -> {
+		    UsersDto2 dto = new UsersDto2();
 		    dto.setUId(user.getUId());
 		    dto.setUName(user.getUName());
+		    dto.setEMail(user.getEMail());
+		    dto.setMobileNo(user.getMobileNo());
 		    return dto;
 		}
 		).collect(Collectors.toList());
@@ -91,13 +94,18 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public UsersDto getUserById(Integer uId) {
+	public UsersDto2 getUserById(Integer uId) {
 		// TODO Auto-generated method stub
 		Users user =  userRepositary.findById(uId).orElseThrow(() -> 
 		new ReourceNotFoundException("User Id Not Found On this UserID : " + uId));
 		
-		UsersDto u =  modelMapper.map(user, UsersDto.class);
-		return u;
+		 UsersDto2 dto = new UsersDto2();
+		    dto.setUId(user.getUId());
+		    dto.setUName(user.getUName());
+		    dto.setEMail(user.getEMail());
+		    dto.setMobileNo(user.getMobileNo());
+		    
+		return dto;
 	}
 
 	@Override
