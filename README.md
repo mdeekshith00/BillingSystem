@@ -1,5 +1,4 @@
 in this Application , 
-we can generate Bill for all  Users
 >> You should be able add products and details of the product like pricing quantity available and manage the products. 
 >> List all the products available
 >> User should be able to add the products available and also select the quantity
