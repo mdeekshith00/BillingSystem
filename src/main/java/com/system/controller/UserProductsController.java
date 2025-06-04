@@ -15,12 +15,15 @@ import com.system.dto.UserProductsDto;
 import com.system.model.UserProducts;
 import com.system.serviceImpl.UserProductsServiceImpl;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user-product")
 public class UserProductsController {
 	
-	@Autowired
-	private UserProductsServiceImpl userProductService;
+	
+	private final UserProductsServiceImpl userProductService;
 	
 	@PostMapping("/assign")
   public ResponseEntity<String> assignProductToUser(@RequestParam Integer userId,  @RequestParam Integer productId,

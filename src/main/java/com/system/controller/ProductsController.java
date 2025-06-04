@@ -16,14 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.system.dto.ProductsDto;
 import com.system.model.Products;
 import com.system.modeldto.ProductsModelDto;
+import com.system.serviceImpl.BillingServiceImpl;
 import com.system.serviceImpl.ProductsServiceImpl;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/products")
 public class ProductsController {
 	
-	@Autowired
-	private ProductsServiceImpl prodservice;
+	
+	
+	private final ProductsServiceImpl prodservice;
 	
 	@PostMapping("/addproduct")
 	public ResponseEntity<ProductsDto> addProducts(@RequestBody ProductsModelDto productsModelDto) {

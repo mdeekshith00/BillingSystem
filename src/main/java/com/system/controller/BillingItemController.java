@@ -17,12 +17,16 @@ import com.system.dto.BillingItemDto;
 import com.system.model.BillingItem;
 import com.system.modeldto.BillingItemModelDto;
 import com.system.serviceImpl.BillingItemServiceImpl;
+import com.system.serviceImpl.BillingServiceImpl;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/billing-item")
 public class BillingItemController {
-	@Autowired
-	private BillingItemServiceImpl billingService;
+	
+	private final BillingItemServiceImpl billingService;
 	
 	@PostMapping("/add")
 	public ResponseEntity<BillingItemDto> addBillingItem(@RequestBody BillingItemModelDto billingItemModelDto) {

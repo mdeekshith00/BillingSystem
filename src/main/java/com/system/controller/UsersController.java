@@ -3,7 +3,6 @@ package com.system.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +18,15 @@ import com.system.dto.UsersDto1;
 import com.system.modeldto.UsersModelDto;
 import com.system.serviceImpl.UsersServiceImpl;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class UsersController {
-	@Autowired
-	private UsersServiceImpl uService;
+	
+	
+	private final UsersServiceImpl uService;
 	
 	@PostMapping("/add")
 	public ResponseEntity<UsersDto> addUser(@RequestBody  UsersModelDto userModelDto) {
