@@ -1,8 +1,5 @@
 package com.system.dto;
 
-import org.springframework.stereotype.Component;
-
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@Component
+
 public class AdminDto {
 	
 	private Integer aId;
