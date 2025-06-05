@@ -22,13 +22,13 @@ public class AdminController {
 
     
     private final  AdminServiceImpl adminService;
+    
 
-    @PreAuthorize("Admin")
     @PostMapping("/sign-in")
     public ResponseEntity<AdminDto> register(@Valid @RequestBody AdminModelDto adminModelDto) {
         return new ResponseEntity<>(adminService.register(adminModelDto), HttpStatus.CREATED);
     }
-
+   
     @GetMapping("/users/{aId}")
     public ResponseEntity<AdminDto> getById(@PathVariable Integer aId) {
         return new ResponseEntity<>(adminService.getById(aId), HttpStatus.OK);

@@ -47,17 +47,17 @@ public class Products {
 	private String description;
 	@Column(nullable = false)
 	private BigDecimal MRP;
-	@Column(nullable = false)
-	@NotNull
+	@Column
+	@NotNull(message = "quantityAvailable should be greater than 1 atleast in store")
 	private Integer quantityAvailable;
 	@Column(nullable = false)
-	@Future
+	@Future(message = " product expiryDate Should be future")
 	private LocalDate expiryDate;
-	@Column(nullable = false)
+	@Column(nullable = false )
 	private String unit; 
 	
 	@Column(nullable = false)
-	@PastOrPresent
+	@PastOrPresent(message = " createdAt should be in past or present")
 	private LocalDateTime createdAt; //  when the product was added.
 	@Column(nullable = false)
 	private LocalDateTime updatedAt; // when the product was updated at store 
