@@ -55,7 +55,6 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	}
 
 	@Override
-	@PreAuthorize("Admin")
 	public AdminDto register(AdminModelDto adminModelDto) {
 		// TODO Auto-generated method stub
 		

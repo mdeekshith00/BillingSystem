@@ -17,6 +17,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,24 +38,28 @@ public class Products {
 	@JsonProperty("productId")
 	private Integer  productId;
 	
-	@Column
+	@Column(nullable = false , unique = true)
+	@Size(min=2, max=30)
 	private String productName;
-	@Column
+	@Column(nullable = false , unique = true)
 	private String productCompany;
-	@Column
+	@Column(nullable = false)
 	private String description;
-	@Column
+	@Column(nullable = false)
 	private BigDecimal MRP;
-	@Column
+	@Column(nullable = false)
+	@NotNull
 	private Integer quantityAvailable;
-	@Column
+	@Column(nullable = false)
+	@Future
 	private LocalDate expiryDate;
-	@Column
+	@Column(nullable = false)
 	private String unit; 
 	
-	@Column
+	@Column(nullable = false)
+	@PastOrPresent
 	private LocalDateTime createdAt; //  when the product was added.
-	@Column
+	@Column(nullable = false)
 	private LocalDateTime updatedAt; // when the product was updated at store 
 	
 

@@ -15,6 +15,7 @@ import com.system.dto.UserProductsDto;
 import com.system.model.UserProducts;
 import com.system.serviceImpl.UserProductsServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -26,8 +27,8 @@ public class UserProductsController {
 	private final UserProductsServiceImpl userProductService;
 	
 	@PostMapping("/assign")
-  public ResponseEntity<String> assignProductToUser(@RequestParam Integer userId,  @RequestParam Integer productId,
-		                                               @RequestParam Integer quantity) {
+  public ResponseEntity<String> assignProductToUser(@RequestParam Integer userId, @Valid @RequestParam Integer productId,
+		  @Valid  @RequestParam Integer quantity) {
 		return new ResponseEntity<>(userProductService.assignProductToUser(userId, productId, quantity) , HttpStatus.OK);
 	}
 	@GetMapping

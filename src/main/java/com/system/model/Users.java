@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,11 +30,12 @@ public class Users {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@JsonProperty("uId")
 	private Integer uId;
-	@Column
+	@Column(nullable = false , unique = true)
 	private String uName;
-	@Column
+	@Column(nullable = false)
 	private String mobileNo;
-	@Column
+	@Column(nullable = false)
+	@Email(message = "Email is not valid")
 	private String eMail;
 	
 	

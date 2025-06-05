@@ -13,6 +13,7 @@ import com.system.dto.AdminDto;
 import com.system.modeldto.AdminModelDto;
 import com.system.serviceImpl.AdminServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class AdminController {
 
     @PreAuthorize("Admin")
     @PostMapping("/sign-in")
-    public ResponseEntity<AdminDto> register(@RequestBody AdminModelDto adminModelDto) {
+    public ResponseEntity<AdminDto> register(@Valid @RequestBody AdminModelDto adminModelDto) {
         return new ResponseEntity<>(adminService.register(adminModelDto), HttpStatus.CREATED);
     }
 
@@ -34,12 +35,12 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AdminModelDto adminModelDto) {
+    public ResponseEntity<?> login(@Valid @RequestBody AdminModelDto adminModelDto) {
     	 return new ResponseEntity<>(adminService.verify(adminModelDto), HttpStatus.CREATED);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<AdminDto> signUp(@RequestBody AdminModelDto adminModelDto) {
+    public ResponseEntity<AdminDto> signUp(@Valid @RequestBody AdminModelDto adminModelDto) {
         return new ResponseEntity<>(adminService.signUp(adminModelDto), HttpStatus.CREATED);
     }
 }

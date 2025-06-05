@@ -19,6 +19,7 @@ import com.system.dto.UsersDto2;
 import com.system.modeldto.UsersModelDto;
 import com.system.serviceImpl.UsersServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class UsersController {
 	private final UsersServiceImpl uService;
 	
 	@PostMapping("/add")
-	public ResponseEntity<UsersDto> addUser(@RequestBody  UsersModelDto userModelDto) {
+	public ResponseEntity<UsersDto> addUser(@Valid  @RequestBody  UsersModelDto userModelDto) {
 		System.out.println(uService.addUser(userModelDto));
 		return new ResponseEntity<>(uService.addUser(userModelDto) , HttpStatus.CREATED);
 	}
@@ -47,7 +48,7 @@ public class UsersController {
 		return new ResponseEntity<>(uService.getUserById(uId) , HttpStatus.OK);
 	}
 	@PostMapping("/assign")
-	public ResponseEntity<UsersDto1> setProductsToUsers(@RequestParam Integer uId,@RequestParam Integer productId, @RequestParam int quantity) {
+	public ResponseEntity<UsersDto1> setProductsToUsers(@Valid @RequestParam Integer uId,@RequestParam Integer productId, @RequestParam int quantity) {
 		return new ResponseEntity<>(uService.setProductsToUsers(uId, productId, quantity) , HttpStatus.OK);
 	}
 	

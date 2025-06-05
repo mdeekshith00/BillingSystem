@@ -19,6 +19,7 @@ import com.system.modeldto.ProductsModelDto;
 import com.system.serviceImpl.BillingServiceImpl;
 import com.system.serviceImpl.ProductsServiceImpl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class ProductsController {
 	private final ProductsServiceImpl prodservice;
 	
 	@PostMapping("/addproduct")
-	public ResponseEntity<ProductsDto> addProducts(@RequestBody ProductsModelDto productsModelDto) {
+	public ResponseEntity<ProductsDto> addProducts(@Valid @RequestBody ProductsModelDto productsModelDto) {
 		return new ResponseEntity<>(prodservice.addProducts(productsModelDto)  ,HttpStatus.CREATED);
 	}
 	
