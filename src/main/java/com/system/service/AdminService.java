@@ -15,7 +15,9 @@ public interface AdminService {
 	AdminDto register(AdminModelDto adminModelDto);
 	
 	AdminDto getById(Integer aId);
-	Optional<Admin> findByUsername(String userName);
+
+	
+	
 	
 
 }

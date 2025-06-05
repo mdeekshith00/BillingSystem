@@ -1,20 +1,18 @@
 package com.system.serviceImpl;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.system.dto.AdminDto;
 import com.system.exception.ReourceNotFoundException;
@@ -22,8 +20,9 @@ import com.system.model.Admin;
 import com.system.modeldto.AdminModelDto;
 import com.system.repositary.AdminRepositary;
 import com.system.service.AdminService;
-
 import lombok.RequiredArgsConstructor;
+
+
 
 @RequiredArgsConstructor
 @Service
@@ -107,12 +106,43 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
          }
          return "fail";
 	}
-	
-	@Override
-	public Optional findByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	 
+	    public String forgotPassword(String userName , Integer aId) {
+	    	Optional<Admin> username = adminRepositary.findByUserName(userName);
+	    	Optional<Admin> userId = adminRepositary.findById(aId);
+	    	
+	    	if(username.isEmpty()  && userId.get().getAId() != aId && userId.isEmpty()) {
+	    		throw new UsernameNotFoundException("User not found On thid data :'" +  userName + "' Id " + aId);
+	    	}
+	    	Admin admin = new Admin();
+	    	admin = username.get();
+	    
+	    	String token = UUID.randomUUID().toString();
+	    	if(admin.getAId().equals(userId.get().getAId())) {
+	    	admin.setResetToken(token);
+	    	adminRepositary.save(admin);
+	    	} else {
+	    		throw new ReourceNotFoundException("Wrong User Id Provided : " + " Id '" + aId + "' please check again:"); 
+	    	}
+	    	
+	    	return "Reset link genegerated. Use Token : " + token;
+	    }
+	    
+	    public String resetPassword(String token , String newPassword ) {
+	    	Optional<Admin> reset = adminRepositary.findByResetToken(token);
+	    	if(reset.isEmpty()) {
+	    		throw new RuntimeException("Token is inValid:");
+	    	}
+	    	Admin admin = reset.get();
+	    	admin.setPassword(bCryptPasswordEncoder.encode(newPassword));
+	    	admin.setResetToken(null);
+	    	adminRepositary.save(admin);
+	    	
+	    	return "Password reset successful  on :" +  admin.getUsername();
+	    } 
 	
 	
 }
+
+
+

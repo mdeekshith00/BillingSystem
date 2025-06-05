@@ -21,5 +21,7 @@ public class AdminModelDto {
 
 	private String role;
 	
+	private String resetToken;
+	
 
 }

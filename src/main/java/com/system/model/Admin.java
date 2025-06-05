@@ -25,6 +25,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,10 +42,14 @@ public class Admin  implements UserDetails {
 	@NotBlank(message = "uName is mandatory")
 	private String userName;
 	@Column(nullable = false , unique = true)
-	@Size(min=2, max=30)
+	@Size(min=2)
 	private String password;
 	@Column
 	private String role;
+	
+	@Column(name = "reset_token")
+	private String resetToken;
+
 	
 	
 	@OneToMany(mappedBy = "admin" , cascade = CascadeType.ALL)
