@@ -8,15 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-
-public class UsersDto2 {
+public class BillingDto1 {
 	
-private Integer uId;
+	    private Integer bId;
+	    
+	    private double totalAmount;
 	
-	private String uName;
-	
-	private String mobileNo;
-	
-	private String eMail;
 
 }

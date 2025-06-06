@@ -7,9 +7,11 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.system.dto.BillingDto1;
 import com.system.dto.UsersDto;
 import com.system.dto.UsersDto1;
 import com.system.dto.UsersDto2;
+import com.system.dto.UsersProductsDto1;
 import com.system.exception.ReourceNotFoundException;
 import com.system.model.Billing;
 import com.system.model.BillingItem;
@@ -70,7 +72,7 @@ public class UsersServiceImpl implements UsersService {
 		userDto.setMobileNo(u.getMobileNo());
 		userDto.setEMail(u.getEMail());
 		// billing 
-		userDto.setBId(List.of(b));
+//		userDto.setBId(List.of(b));
 		
 		return userDto;
 		
@@ -133,8 +135,6 @@ public class UsersServiceImpl implements UsersService {
 	        Products product = firstProduct.getProduct();
 	        if (product != null) {
 	            userDto.setPId(product.getProductId());
-//	            userDto.setPName(product.getProductName());
-//	            userDto.setPCompany(product.getProductCompany());
 	            userDto.setMrp(product.getMRP());
 	            userDto.setExpiryDate(product.getExpiryDate());
 	        }
@@ -192,13 +192,23 @@ public class UsersServiceImpl implements UsersService {
 
 	    product.setQuantityAvailable(available - quantity);
 	    pUserRepositary.save(product);
-
+//          ---------------------------------------------------------------------------
 	    UsersDto1 dto = new UsersDto1();
+	    	   
+	    UsersProductsDto1 updto = new UsersProductsDto1();
+	    updto.setUserProductId(product.getProductId());
+	    updto.setMrp(product.getMRP());
+	    updto.setQuantity(product.getQuantityAvailable());
+//	    updto.setProduct();
+	    
+	    BillingDto1 bdto = new BillingDto1();
+	    
+	    
+	    dto.setUId(user.getUId());
 	    dto.setUName(user.getUName());
 	    dto.setMobileNo(user.getMobileNo());
 	    dto.setEMail(user.getEMail());
-	    dto.setUserProducts(List.of(userProduct));
-	  
+	    dto.setUserProducts(List.of(updto));
 
 	    return dto;
 	}

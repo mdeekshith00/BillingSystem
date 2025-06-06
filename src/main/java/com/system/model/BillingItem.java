@@ -45,13 +45,13 @@ public class BillingItem {
 	
 	 @ManyToOne
      @JoinColumn(name = "bId")
-	 @JsonBackReference
+//	 @JsonBackReference
 	private Billing billing;
 	  
 
 	 
 	 @OneToMany(mappedBy = "billingItem" , cascade = CascadeType.ALL)
-	 @JsonBackReference
+//	 @JsonBackReference
 		private List<UserProducts> UserProductId;
 
 }

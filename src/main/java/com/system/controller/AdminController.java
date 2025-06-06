@@ -1,5 +1,7 @@
 package com.system.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.system.dto.AdminDto;
+import com.system.dto.BillingDto;
+import com.system.model.Billing;
 import com.system.modeldto.AdminModelDto;
 import com.system.serviceImpl.AdminServiceImpl;
 
@@ -53,6 +57,11 @@ public class AdminController {
     @PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
         return new ResponseEntity<>(adminService.resetPassword(token, newPassword), HttpStatus.OK);
+    }
+    
+    @PostMapping
+    public ResponseEntity<List<BillingDto>> getAllByproducts(@RequestParam String productName,@RequestParam String productCompany){
+    	return new ResponseEntity<>(adminService.getAllByproducts(productName, productCompany), HttpStatus.OK); 
     }
 }
 

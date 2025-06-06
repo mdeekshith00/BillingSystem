@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Component
+
 public class UserProductsDto {
 	
 	 private Integer UserProductId;

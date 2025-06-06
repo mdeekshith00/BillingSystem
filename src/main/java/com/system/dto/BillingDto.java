@@ -1,13 +1,10 @@
 package com.system.dto;
 
-import java.math.BigDecimal;
+import java.util.List;
 
-import org.springframework.stereotype.Component;
-
+import com.system.model.BillingItem;
 import com.system.model.Users;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,12 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Component
+
 public class BillingDto {
 
 	private Integer bId;
+	
+	private UsersDto2 user;
 
-	private Users user;
+//	private List<BillingItemDto> BillItem;
+
+
+
 	
 
 }

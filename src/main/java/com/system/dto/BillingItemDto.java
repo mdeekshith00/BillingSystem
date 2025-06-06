@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Component
+
 public class BillingItemDto {
 	
 	private Integer itemId;
@@ -22,8 +22,6 @@ public class BillingItemDto {
 	
 	private BigDecimal price; 
 	
-	private BigDecimal totalAmount; 
-	
-	private LocalDateTime createdAt;
+
 
 }

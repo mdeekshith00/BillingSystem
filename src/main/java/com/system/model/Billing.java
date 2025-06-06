@@ -35,11 +35,11 @@ public class Billing {
 
 	@ManyToOne
 	@JoinColumn(name="user_id")
-	@JsonBackReference
+//	@JsonBackReference
 	private Users user;
 	
 	 @OneToMany(mappedBy = "billing" , cascade = CascadeType.ALL)
-	 @JsonManagedReference
+//	 @JsonManagedReference
 		private List<BillingItem> itemId;
 	
 	@ManyToOne

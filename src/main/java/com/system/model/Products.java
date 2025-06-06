@@ -41,7 +41,7 @@ public class Products {
 	@Column(nullable = false , unique = true)
 	@Size(min=2, max=30)
 	private String productName;
-	@Column(nullable = false , unique = true)
+	@Column(nullable = false)
 	private String productCompany;
 	@Column(nullable = false)
 	private String description;
@@ -63,7 +63,7 @@ public class Products {
 	private LocalDateTime updatedAt; // when the product was updated at store 
 	
 
-	@JsonBackReference
+//	@JsonBackReference
 	@OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)
 	private List<UserProducts> userProducts;
 	

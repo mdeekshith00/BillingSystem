@@ -67,7 +67,7 @@ public class UserProductsServiceImpl implements UserProductsService{
 	    dto.setUName(user.getUName());
 	    dto.setMobileNo(user.getMobileNo());
 	    dto.setEMail(user.getEMail());
-	    dto.setUserProducts(List.of(userProduct));
+//	    dto.setUserProducts(List.of(userProduct));
 
       return "Product assigned to user successfully.";
   }
@@ -84,38 +84,4 @@ public List<UserProductsDto> getAllUserProducts() {
 
 }
 
-//@RestController
-//@RequestMapping("/user-products")
-//public class UserProductController {
-//
-//    @Autowired
-//    private UsersRepository usersRepository;
-//
-//    @Autowired
-//    private ProductRepository productRepository;
-//
-//    @Autowired
-//    private UserProductsRepository userProductsRepository;
-//
-//    @PostMapping("/assign")
-//    public String assignProductToUser(@RequestParam Integer userId,
-//                                      @RequestParam Integer productId,
-//                                      @RequestParam Integer quantity) {
-//
-//        Users user = usersRepository.findById(userId).orElse(null);
-//        Products product = productRepository.findById(productId).orElse(null);
-//
-//        if (user == null || product == null) {
-//            return "Invalid user or product ID.";
-//        }
-//
-//        UserProducts userProduct = new UserProducts();
-//        userProduct.setUser(user);
-//        userProduct.setProduct(product);
-//        userProduct.setQuantity(quantity);
-//
-//        userProductsRepository.save(userProduct);
-//
-//        return "Product assigned to user successfully.";
-//    }
-//}
+

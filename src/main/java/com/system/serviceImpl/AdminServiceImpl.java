@@ -1,7 +1,10 @@
 package com.system.serviceImpl;
-
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +18,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.system.dto.AdminDto;
+import com.system.dto.BillingDto;
+import com.system.dto.BillingItemDto;
+import com.system.dto.UsersDto2;
 import com.system.exception.ReourceNotFoundException;
 import com.system.model.Admin;
+import com.system.model.Billing;
+import com.system.model.BillingItem;
+import com.system.model.Products;
+import com.system.model.UserProducts;
+import com.system.model.Users;
 import com.system.modeldto.AdminModelDto;
 import com.system.repositary.AdminRepositary;
+import com.system.repositary.BillingRepositary;
+import com.system.repositary.ProductsRepositary;
+import com.system.repositary.UserProductsRepositary;
 import com.system.service.AdminService;
-import lombok.RequiredArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
 
 
 @RequiredArgsConstructor
@@ -30,6 +44,12 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	
 	
 	private final AdminRepositary adminRepositary;
+	
+	private final ProductsRepositary aProductRepositary;
+	
+	private final UserProductsRepositary aUserProductsRepositary;
+	
+	private final BillingRepositary aBillingRepositary;
 	
 	private final JWTService jwtservice;
 	@Autowired
@@ -49,12 +69,11 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	    return new org.springframework.security.core.userdetails.User(
 	        admin.getUsername(),
 	        admin.getPassword(),
-	        admin.getAuthorities()  // This already returns List<GrantedAuthority>
+	        admin.getAuthorities()  
 	    );
 	}
 
-	@Override
-	
+	@Override	
 	public AdminDto register(AdminModelDto adminModelDto) {
 		// TODO Auto-generated method stub
 		
@@ -139,10 +158,75 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	    	adminRepositary.save(admin);
 	    	
 	    	return "Password reset successful  on :" +  admin.getUsername();
-	    } 
+	    }
+
+
+	    @Override
+	    public List<BillingDto> getAllByproducts(String productName, String productCompany) {
 	
-	
+	        List<Products> matchedProducts = aProductRepositary.findByProductName(productName);
+
+	        if (matchedProducts == null || matchedProducts.isEmpty()) {
+	            List<Billing> bill =  aBillingRepositary.findAll();
+	            List<BillingDto> billDto = bill.stream().map(a ->modelMapper.map(a, BillingDto.class)).toList();
+	            return billDto;
+	        }
+
+	        if (productCompany != null && !productCompany.isEmpty()) {
+	            matchedProducts = matchedProducts.stream()
+	                    .filter(p -> p.getProductCompany().equalsIgnoreCase(productCompany))
+	                    .collect(Collectors.toList());
+	        }
+
+	        if (matchedProducts.isEmpty()) {
+	        	  List<Billing> bill =  aBillingRepositary.findAll();
+	        	  List<BillingDto> billDto = bill.stream().map(a ->modelMapper.map(a, BillingDto.class)).toList();
+		            return billDto;
+	        }
+
+	        Set<Integer> productIds = matchedProducts.stream()
+	        		.map(a -> a.getProductId())
+	                .collect(Collectors.toSet());
+
+
+	        List<UserProducts> userProductsList = aUserProductsRepositary.findByProduct_ProductIdIn(productIds);
+
+	        Set<Billing> matchedBillings = new HashSet<>();
+	        for (UserProducts up : userProductsList) {
+	            BillingItem item = up.getBillingItem();
+	            if (item != null && item.getBilling() != null) {
+	                matchedBillings.add(item.getBilling());
+	            }
+	        }
+
+	        if (matchedBillings.isEmpty()) {
+	        	  List<Billing> bill =  aBillingRepositary.findAll();
+	        	  List<BillingDto> billDto = bill.stream().map(a ->modelMapper.map(a, BillingDto.class)).toList();
+		            return billDto;
+	        }
+//   ---------------------------------------------------------------------------------------     
+	        List<BillingDto> billDto = matchedBillings.stream().map(bill -> {
+	        	BillingDto billingDto = new BillingDto();
+	        	
+	        	billingDto.setBId(bill.getBId());       	
+	        	// billing item created
+	        	BillingItemDto bDto = new BillingItemDto();
+	        	// userDao2 creating
+	        	Users user = bill.getUser();
+	        	UsersDto2 userDto = new UsersDto2();
+	        	userDto.setUId(user.getUId());
+	        	userDto.setUName(user.getUName());
+	        	userDto.setMobileNo(user.getMobileNo());
+	        	userDto.setEMail(user.getEMail());
+	        	
+	        	billingDto.setUser(userDto);
+
+	        	return billingDto;
+	        }
+	        ).collect(Collectors.toList());
+	        
+            return billDto;
+	    }
+	        
 }
-
-
 

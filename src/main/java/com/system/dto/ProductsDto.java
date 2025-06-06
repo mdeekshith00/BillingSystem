@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Component
+
 public class ProductsDto {
 	
     private Integer  productId;

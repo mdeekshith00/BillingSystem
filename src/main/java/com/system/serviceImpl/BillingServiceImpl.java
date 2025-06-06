@@ -60,44 +60,4 @@ public class BillingServiceImpl  implements BillingService {
 	}
 }
 
-//	@Override
-//	public String addBillsForUser(Integer uId) {
-//		// TODO Auto-generated method stub
-//		    Users user = uBillService.findById(uId)
-//				        .orElseThrow(() -> new ReourceNotFoundException("Billing Id Not Found On this UserId : " + uId));
-//				
-//				    List<Products> userProducts = user.getProductId(); 
-//				
-//				    BigDecimal totalAmount = userProducts.stream()
-//				        .map(Products::getMRP)
-//				        .filter(Objects::nonNull)
-////				        .filter(mrp -> mrp != null)
-//				        .reduce(BigDecimal.ZERO, BigDecimal::add);
-//				
-//				    Billing billing = billingRepositary.findByUser(user);
-//
-//				
-//				    billing.setUser(user);
-//				    billing.setBAmount(totalAmount);
-//				
-//				    billingRepositary.save(billing);
-//				
-//				    return "Billing generated for user " + user.getUName() + ": Rs. " + totalAmount;
-//				}
-//	public BillingDto addBilling(Billing billing , Integer uId) {
-//		// TODO Auto-generated method stub
-//		
-//		Users userb = uBillService.findById(uId).orElseThrow(() -> 
-//		new ReourceNotFoundException("Billing Id Not Found On this UserID : " + uId));
-//		
-//		
-//		billing.setUser(userb);
-//		Billing bill = billingRepositary.save(billing);
-//		return bill;
-//	}
-	
-			
-
-//}
-
 

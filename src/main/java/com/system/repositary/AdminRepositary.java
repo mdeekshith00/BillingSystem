@@ -12,6 +12,8 @@ public interface AdminRepositary extends JpaRepository<Admin, Integer>{
 	 Optional<Admin> findByUserName(String userName);
 	 
 	 Optional<Admin> findByResetToken(String resetToken);
+	 
+	 
 	
 
 	
