@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.system.dto.AdminDto;
 import com.system.dto.BillingDto;
-import com.system.model.Billing;
 import com.system.modeldto.AdminModelDto;
 import com.system.serviceImpl.AdminServiceImpl;
+import com.system.serviceImpl.SchedulerServiceImpl;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
 
     
-    private final  AdminServiceImpl adminService;
+    private final  AdminServiceImpl adminService;   
     
 
     @PostMapping("/sign-in")
@@ -63,6 +63,12 @@ public class AdminController {
     public ResponseEntity<List<BillingDto>> getAllByproducts(@RequestParam String productName,@RequestParam String productCompany){
     	return new ResponseEntity<>(adminService.getAllByproducts(productName, productCompany), HttpStatus.OK); 
     }
+    
+//    @GetMapping("/check-data")
+//    public ResponseEntity<?> checkData() {
+//    	return new ResponseEntity<>("data will be delete at end of the month:" , HttpStatus.OK); 
+//    	
+//    }
 }
 
 	

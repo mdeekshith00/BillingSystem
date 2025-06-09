@@ -17,7 +17,7 @@ public class AdminDto {
 
 	private String role;
 	
-	private String resetToken;
+//	private String resetToken;
 	
 	
 
