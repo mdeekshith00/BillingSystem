@@ -15,7 +15,7 @@ public interface AdminService {
 	
 	AdminDto getById(Integer aId);
 	
-	List<BillingDto> getAllByproducts(String productName , String productCompany);
+	List<BillingDto> getAllBillsByProduct(String productName , String productCompany);
 
 	
 	

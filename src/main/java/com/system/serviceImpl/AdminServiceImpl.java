@@ -1,6 +1,8 @@
 package com.system.serviceImpl;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -161,51 +163,93 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	    }
 
 
-	    @Override
-	    public List<BillingDto> getAllByproducts(String productName, String productCompany) {
+	    @SuppressWarnings("unlikely-arg-type")
+		@Override
+	    public List<BillingDto> getAllBillsByProduct(String productName, String productCompany) {
 	
-	        List<Products> matchedProducts = aProductRepositary.findByProductName(productName);
-
-	        if (matchedProducts == null || matchedProducts.isEmpty()) {
+	    
+	        List<Products> matchedProductsNames = aProductRepositary.findByProductName(productName);
+	        List<Products> matchedProductsComapny = aProductRepositary.findByProductCompany(productCompany);
+	        		
+            List<BillingDto> billDto = new ArrayList<BillingDto>();
+            
+	        if (matchedProductsNames == null || matchedProductsNames.isEmpty() || matchedProductsComapny == null || matchedProductsComapny.isEmpty()) {
 	            List<Billing> bill =  aBillingRepositary.findAll();
-	            List<BillingDto> billDto = bill.stream().map(a ->modelMapper.map(a, BillingDto.class)).toList();
-	            return billDto;
+	            List<BillingDto> bDto = bill.stream().map(a ->modelMapper.map(a, BillingDto.class)).toList();
+	            return bDto;
 	        }
 
-	        if (productCompany != null && !productCompany.isEmpty()) {
-	            matchedProducts = matchedProducts.stream()
-	                    .filter(p -> p.getProductCompany().equalsIgnoreCase(productCompany))
-	                    .collect(Collectors.toList());
-	        }
-
-	        if (matchedProducts.isEmpty()) {
-	        	  List<Billing> bill =  aBillingRepositary.findAll();
-	        	  List<BillingDto> billDto = bill.stream().map(a ->modelMapper.map(a, BillingDto.class)).toList();
-		            return billDto;
-	        }
-
-	        Set<Integer> productIds = matchedProducts.stream()
+	        Set<Integer> productIds = matchedProductsNames.stream()
 	        		.map(a -> a.getProductId())
 	                .collect(Collectors.toSet());
-
-
+	        
 	        List<UserProducts> userProductsList = aUserProductsRepositary.findByProduct_ProductIdIn(productIds);
-
+	        
 	        Set<Billing> matchedBillings = new HashSet<>();
+	        
 	        for (UserProducts up : userProductsList) {
 	            BillingItem item = up.getBillingItem();
 	            if (item != null && item.getBilling() != null) {
 	                matchedBillings.add(item.getBilling());
 	            }
 	        }
+	        
+	        for(Products names: matchedProductsNames) {
+	        	for(Products company : matchedProductsComapny) {
+	        		if(names.getProductId().equals(company.getProductId())) {
+	        			
+	        			billDto = matchedBillings.stream().map(bill -> {
+	        	        	BillingDto billingDto = new BillingDto();
+	        	        	
+	        	        	billingDto.setBId(bill.getBId());       	
+	        
+	        	        	BillingItemDto bDto = new BillingItemDto();
+	        	      
+	        	        	Users user = bill.getUser();
+	        	        	UsersDto2 userDto = new UsersDto2();
+	        	        	userDto.setUId(user.getUId());
+	        	        	userDto.setUName(user.getUName());
+	        	        	userDto.setMobileNo(user.getMobileNo());
+	        	        	userDto.setEMail(user.getEMail());
+	        	        	
+	        	        	
+	        	        	billingDto.setUser(userDto);
+	        	        	billingDto.setProductCompany(company.getProductCompany());
+	        	        	billingDto.setProductName(names.getProductName());
 
-	        if (matchedBillings.isEmpty()) {
-	        	  List<Billing> bill =  aBillingRepositary.findAll();
-	        	  List<BillingDto> billDto = bill.stream().map(a ->modelMapper.map(a, BillingDto.class)).toList();
-		            return billDto;
+	        	        	return billingDto;
+	        	        }
+	        	        ).collect(Collectors.toList());
+	        			
+	        		} else if (names.getProductName().equalsIgnoreCase(productName)) {
+	        			billDto = matchedBillings.stream().map(bill -> {
+	        	        	BillingDto billingDto = new BillingDto();
+	        	        	
+	        	        	billingDto.setBId(bill.getBId());       	
+	        
+	        	        	BillingItemDto bDto = new BillingItemDto();
+	        	      
+	        	        	Users user = bill.getUser();
+	        	        	UsersDto2 userDto = new UsersDto2();
+	        	        	userDto.setUId(user.getUId());
+	        	        	userDto.setUName(user.getUName());
+	        	        	userDto.setMobileNo(user.getMobileNo());
+	        	        	userDto.setEMail(user.getEMail());
+	        	        	
+	        	        	
+	        	        	billingDto.setUser(userDto);
+	        	        	billingDto.setProductCompany(company.getProductCompany());
+	        	        	billingDto.setProductName(names.getProductName());
+
+	        	        	return billingDto;
+	        	        }
+	        	        ).collect(Collectors.toList());
+						
+					} 
+	        	}
 	        }
-//   ---------------------------------------------------------------------------------------     
-	        List<BillingDto> billDto = matchedBillings.stream().map(bill -> {
+//   ---------------------------------------------------------------------------------------   	        ()
+	         billDto = matchedBillings.stream().map(bill -> {
 	        	BillingDto billingDto = new BillingDto();
 	        	
 	        	billingDto.setBId(bill.getBId());       	
@@ -219,12 +263,15 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	        	userDto.setMobileNo(user.getMobileNo());
 	        	userDto.setEMail(user.getEMail());
 	        	
+	        	
 	        	billingDto.setUser(userDto);
+	        	billingDto.setProductCompany(productCompany);
 
 	        	return billingDto;
 	        }
 	        ).collect(Collectors.toList());
 	        
+
             return billDto;
 	    }
 	        

@@ -10,6 +10,7 @@ public interface ProductsRepositary extends JpaRepository<Products, Integer>{
 	
 	List<Products> findByProductName(String productName);
 	List<Products> findByProductCompany(String productCompany);
+//	List<Products> findByProductNameAndProductCompany(String productName, String productCompany);
 	
 	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.system.model.Billing;
 import com.system.model.BillingItem;
 import com.system.model.Products;
 import com.system.model.UserProducts;
@@ -34,29 +35,12 @@ public class UsersDto {
 	private String eMail;
 	
 	// userProducts 
-	 private List<UserProducts> productList; 
-	    private BigDecimal mrp; 
-//	    private Users user;
-//	    private Products product;
-//	    private BillingItem billingItem;
-	    private int uquantity;
+	 private List<UserProductsDto>  usersProductsList; 
 
-	// products 
-	private long  pId;
-//	private String pName;
-//	private String pCompany;
-	private BigDecimal MRP;
-	private LocalDate expiryDate;
-	
 	// bill details
-	private long bId;
-	
-	//billingItems
-//	private Integer itemId;	 
-	private int quantity;
-	private BigDecimal price; 
-	private BigDecimal totalAmount; 
-	private LocalDateTime createdAt;
+	private List<BillingDto1> billing;
+ 
+
 	
 
 	

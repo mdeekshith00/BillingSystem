@@ -59,16 +59,12 @@ public class AdminController {
         return new ResponseEntity<>(adminService.resetPassword(token, newPassword), HttpStatus.OK);
     }
     
-    @PostMapping
-    public ResponseEntity<List<BillingDto>> getAllByproducts(@RequestParam String productName,@RequestParam String productCompany){
-    	return new ResponseEntity<>(adminService.getAllByproducts(productName, productCompany), HttpStatus.OK); 
+    @GetMapping("/all-bills")
+    public ResponseEntity<List<BillingDto>> getAllByproducts(@RequestParam(required = false) String productName,@RequestParam(required = false) String productCompany){
+    	return new ResponseEntity<>(adminService.getAllBillsByProduct(productName, productCompany), HttpStatus.OK); 
     }
     
-//    @GetMapping("/check-data")
-//    public ResponseEntity<?> checkData() {
-//    	return new ResponseEntity<>("data will be delete at end of the month:" , HttpStatus.OK); 
-//    	
-//    }
+
 }
 
 	

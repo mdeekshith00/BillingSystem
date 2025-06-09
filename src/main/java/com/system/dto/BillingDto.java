@@ -15,6 +15,9 @@ public class BillingDto {
 	
 	private UsersDto2 user;
 
+	private String productName;
+	
+	private String productCompany;
 
 
 

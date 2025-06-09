@@ -10,6 +10,6 @@ import com.system.model.UserProducts;
 public interface UserProductsRepositary extends JpaRepository<UserProducts, Integer> {
 
 
-		List<UserProducts> findByProduct_ProductIdIn(Set<Integer> matchingProductIds);
+		List<UserProducts> findByProduct_ProductIdIn(Set<Integer> productIds);
 	
 }

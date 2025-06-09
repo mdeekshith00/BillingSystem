@@ -20,18 +20,19 @@ public class SchedulerServiceImpl implements ScheduleService {
 	
 	private final  BillingRepositary sBillingRepositary;
 	
-//	private static final Logger    log = LoggerFactory.getLogger(SchedulerServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerServiceImpl.class);
 
 	
-	@Scheduled(cron = "0 0 1 * * ?")  // the task will run at midnight on the first day of every month
+	@Scheduled(cron = "0 0 1 * * ?")  // the task will run at midnight on the first day of every month , zone = "Indian"
 	public void processDeleteAllBilling() {
 		LocalDate today = LocalDate.now();
 		YearMonth yearMonth = YearMonth.from(today);
 		LocalDate lastDay = yearMonth.atEndOfMonth();
 		
 		if(today.equals(lastDay)) { 
-			  System.out.println("Last day of month detected. Deleting data..."); 
+//			  System.out.println("Last day of month detected. Deleting data..."); 
 			  sBillingRepositary.deleteAll();
+			  LOGGER.info("Last day of month detected. Deleting data...");
 			 
 		}
 		 else {

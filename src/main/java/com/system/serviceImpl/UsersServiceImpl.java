@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.system.dto.BillingDto1;
+import com.system.dto.UserProductsDto;
 import com.system.dto.UsersDto;
 import com.system.dto.UsersDto1;
 import com.system.dto.UsersDto2;
@@ -125,36 +126,29 @@ public class UsersServiceImpl implements UsersService {
 
 	    // Set user products
 	    List<UserProducts> userProducts = u.getUserProducts();
-	    userDto.setProductList(userProducts);
-
-	    if (userProducts != null && !userProducts.isEmpty()) {
-	        UserProducts firstProduct = userProducts.get(0);
-	        userDto.setMrp(firstProduct.getMrp());
-	        userDto.setUquantity(firstProduct.getQuantity());
-
-	        Products product = firstProduct.getProduct();
-	        if (product != null) {
-	            userDto.setPId(product.getProductId());
-	            userDto.setMrp(product.getMRP());
-	            userDto.setExpiryDate(product.getExpiryDate());
-	        }
-	    }
-
-	    List<Billing> billingList = u.getBId();
-	    if (billingList != null && !billingList.isEmpty()) {
-	        Billing latestBilling = billingList.get(0);
-	        userDto.setBId(latestBilling.getBId());
-
-	        List<BillingItem> items = latestBilling.getItemId();
-	        if (items != null && !items.isEmpty()) {
-	            BillingItem firstItem = items.get(0);
-//	            userDto.setItemId(firstItem.getItemId());
-	            userDto.setQuantity(firstItem.getQuantity());
-	            userDto.setPrice(firstItem.getPrice());
-	            userDto.setTotalAmount(firstItem.getTotalAmount());
-	            userDto.setCreatedAt(firstItem.getCreatedAt());
-	        }
-	    }
+	    List<UserProductsDto> list = userProducts.stream().map(Users -> {
+	    	UserProductsDto dto = new UserProductsDto();
+	    	for(UserProducts up :userProducts) {
+	    		dto.setUserProductId(up.getUserProductId());
+	    		dto.setMrp(up.getMrp());
+	    		dto.setQuantity(up.getQuantity());
+	    		
+	    	}
+			return dto;
+	    }).collect(Collectors.toList());
+	    userDto.setUsersProductsList(list);
+	    
+	    List<Billing> item = u.getBId();
+        List<BillingDto1> itemDto = item.stream().map( items -> {
+        	BillingDto1 dto = new BillingDto1();
+        	for(Billing up :item) {
+        	dto.setBId(up.getBId());
+//        	dto.setTotalAmount(up.getItemId().)
+        	}
+        	return dto;
+        }).collect(Collectors.toList());
+		  
+	  userDto.setBilling(itemDto);
 
 	    return userDto;
 	}
