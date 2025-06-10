@@ -52,7 +52,7 @@ public class BillingItem {
 	 
 	 @OneToMany(mappedBy = "billingItem" , cascade = CascadeType.ALL)
 //	 @JsonBackReference
-		private List<UserProducts> UserProductId;
+		private List<UserProducts> userProducts;
 
 }
 

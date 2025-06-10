@@ -1,10 +1,8 @@
 package com.system.serviceImpl;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import com.system.dto.AdminDto;
 import com.system.dto.BillingDto;
-import com.system.dto.BillingItemDto;
 import com.system.dto.UsersDto2;
 import com.system.exception.ReourceNotFoundException;
 import com.system.model.Admin;
@@ -32,6 +29,7 @@ import com.system.model.UserProducts;
 import com.system.model.Users;
 import com.system.modeldto.AdminModelDto;
 import com.system.repositary.AdminRepositary;
+import com.system.repositary.BillingItemRepositary;
 import com.system.repositary.BillingRepositary;
 import com.system.repositary.ProductsRepositary;
 import com.system.repositary.UserProductsRepositary;
@@ -52,6 +50,8 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	private final UserProductsRepositary aUserProductsRepositary;
 	
 	private final BillingRepositary aBillingRepositary;
+	
+	private final BillingItemRepositary aBillingItemRepositary;
 	
 	private final JWTService jwtservice;
 	@Autowired
@@ -163,117 +163,98 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	    }
 
 
-	    @SuppressWarnings("unlikely-arg-type")
-		@Override
-	    public List<BillingDto> getAllBillsByProduct(String productName, String productCompany) {
-	
+		@Override	  
+       public List<BillingDto> getAllBillsByProduct(String productName, String productCompany) {
+
+	        List<BillingDto> billingDtoList = new ArrayList<>();
+           // product name details 
+	        Products product = null;
+	        Products product1 = null;
+	        
+	        boolean hasProductName = productName != null && !productName.isEmpty();
+	        boolean hasProductCompany = productCompany != null && !productCompany.isEmpty();
+	        
+	        if(productName != null ) {
+	        product = aProductRepositary.findByProductName(productName);
+	        List<UserProducts> userProductsByName = aUserProductsRepositary.findByProduct(product);
+	        List<BillingItem> billItems = aBillingItemRepositary.findByuserProductsIn(userProductsByName);
+	        List<Billing> billing = aBillingRepositary.findByitemIdIn(billItems);
+	        }
+	        if(productCompany != null) {
+          // product comapny details
+	        product1 = aProductRepositary.findByProductCompany(productCompany);
+	        List<UserProducts> userProductsByCompany = aUserProductsRepositary.findByProduct(product1);
+	        List<BillingItem> billItems1 = aBillingItemRepositary.findByuserProductsIn(userProductsByCompany);
+	        List<Billing> billing1 = aBillingRepositary.findByitemIdIn(billItems1);
+	        }
+	       
+ 
+           List<Billing> bilList = aBillingRepositary.findAll();
+           List<Products> productList = new ArrayList<Products>();
+           List<Users> usersList=new ArrayList<Users>();
+           bilList.forEach(b->{
+        	   usersList.add(b.getUser());
+        	   b.getItemId().forEach((billingItem)->{
+        		   billingItem.getUserProducts().forEach(userProduct->{
+        			   productList.add(userProduct.getProduct());
+        		   });
+        	   });
+           });
+           
+//           productList.forEach(u->System.out.println(u.getProductId()));
+           
+           if(!hasProductName && !hasProductCompany)  {
+	       for(Billing b : bilList) {
+	    	   BillingDto billDto = new BillingDto();
+	    	   
+	    	   Users user = b.getUser();
+	    	   // user  to user Dto2
+	    	   UsersDto2 userDto = new UsersDto2();
+	    	   userDto.setUId(user.getUId());
+	    	   userDto.setUName(user.getUName());
+	    	   userDto.setMobileNo(user.getMobileNo());
+	    	   userDto.setEMail(user.getEMail());
+	    	   billDto.setUser(userDto);
+	    	   billDto.setBId(b.getBId());
+	    	   
+	    	   // billing items
+	    	   List<BillingItem> itemIds = b.getItemId();
+	    	   
+	    	   for(BillingItem bi : itemIds) {
+	    		   List<UserProducts> userProd = bi.getUserProducts();
+	    		   for(UserProducts u : userProd) {
+	    			   if(u.getUser().getUId()==user.getUId()) {
+	    			   billDto.setProductCompany(u.getProduct().getProductCompany());
+	    			   System.out.println();
+	    			   billDto.setProductName(u.getProduct().getProductName());
+	    			   }
+//	    			   billingDtoList.add(billDto);
+	    		   }
+	    	   }
+	    	   
+	    	 
+	    		   billingDtoList.add(billDto);
+		       }
+
+	       }
+	    	   
 	    
-	        List<Products> matchedProductsNames = aProductRepositary.findByProductName(productName);
-	        List<Products> matchedProductsComapny = aProductRepositary.findByProductCompany(productCompany);
-	        		
-            List<BillingDto> billDto = new ArrayList<BillingDto>();
-            
-	        if (matchedProductsNames == null || matchedProductsNames.isEmpty() || matchedProductsComapny == null || matchedProductsComapny.isEmpty()) {
-	            List<Billing> bill =  aBillingRepositary.findAll();
-	            List<BillingDto> bDto = bill.stream().map(a ->modelMapper.map(a, BillingDto.class)).toList();
-	            return bDto;
-	        }
 
-	        Set<Integer> productIds = matchedProductsNames.stream()
-	        		.map(a -> a.getProductId())
-	                .collect(Collectors.toSet());
-	        
-	        List<UserProducts> userProductsList = aUserProductsRepositary.findByProduct_ProductIdIn(productIds);
-	        
-	        Set<Billing> matchedBillings = new HashSet<>();
-	        
-	        for (UserProducts up : userProductsList) {
-	            BillingItem item = up.getBillingItem();
-	            if (item != null && item.getBilling() != null) {
-	                matchedBillings.add(item.getBilling());
-	            }
-	        }
-	        
-	        for(Products names: matchedProductsNames) {
-	        	for(Products company : matchedProductsComapny) {
-	        		if(names.getProductId().equals(company.getProductId())) {
-	        			
-	        			billDto = matchedBillings.stream().map(bill -> {
-	        	        	BillingDto billingDto = new BillingDto();
-	        	        	
-	        	        	billingDto.setBId(bill.getBId());       	
-	        
-	        	        	BillingItemDto bDto = new BillingItemDto();
-	        	      
-	        	        	Users user = bill.getUser();
-	        	        	UsersDto2 userDto = new UsersDto2();
-	        	        	userDto.setUId(user.getUId());
-	        	        	userDto.setUName(user.getUName());
-	        	        	userDto.setMobileNo(user.getMobileNo());
-	        	        	userDto.setEMail(user.getEMail());
-	        	        	
-	        	        	
-	        	        	billingDto.setUser(userDto);
-	        	        	billingDto.setProductCompany(company.getProductCompany());
-	        	        	billingDto.setProductName(names.getProductName());
-
-	        	        	return billingDto;
-	        	        }
-	        	        ).collect(Collectors.toList());
-	        			
-	        		} else if (names.getProductName().equalsIgnoreCase(productName)) {
-	        			billDto = matchedBillings.stream().map(bill -> {
-	        	        	BillingDto billingDto = new BillingDto();
-	        	        	
-	        	        	billingDto.setBId(bill.getBId());       	
-	        
-	        	        	BillingItemDto bDto = new BillingItemDto();
-	        	      
-	        	        	Users user = bill.getUser();
-	        	        	UsersDto2 userDto = new UsersDto2();
-	        	        	userDto.setUId(user.getUId());
-	        	        	userDto.setUName(user.getUName());
-	        	        	userDto.setMobileNo(user.getMobileNo());
-	        	        	userDto.setEMail(user.getEMail());
-	        	        	
-	        	        	
-	        	        	billingDto.setUser(userDto);
-	        	        	billingDto.setProductCompany(company.getProductCompany());
-	        	        	billingDto.setProductName(names.getProductName());
-
-	        	        	return billingDto;
-	        	        }
-	        	        ).collect(Collectors.toList());
-						
-					} 
-	        	}
-	        }
-//   ---------------------------------------------------------------------------------------   	        ()
-	         billDto = matchedBillings.stream().map(bill -> {
-	        	BillingDto billingDto = new BillingDto();
-	        	
-	        	billingDto.setBId(bill.getBId());       	
-	        	// billing item created
-	        	BillingItemDto bDto = new BillingItemDto();
-	        	// userDao2 creating
-	        	Users user = bill.getUser();
-	        	UsersDto2 userDto = new UsersDto2();
-	        	userDto.setUId(user.getUId());
-	        	userDto.setUName(user.getUName());
-	        	userDto.setMobileNo(user.getMobileNo());
-	        	userDto.setEMail(user.getEMail());
-	        	
-	        	
-	        	billingDto.setUser(userDto);
-	        	billingDto.setProductCompany(productCompany);
-
-	        	return billingDto;
-	        }
-	        ).collect(Collectors.toList());
-	        
-
-            return billDto;
-	    }
-	        
+	      if(hasProductName && hasProductCompany) {
+	    	  
+	      }
+	      if(hasProductName) {
+	    	  
+	      }
+	      if(hasProductCompany) {
+	    	  
+	      }
+	       
+	    
+	        return billingDtoList;
+    
+		}
 }
+    
+
 

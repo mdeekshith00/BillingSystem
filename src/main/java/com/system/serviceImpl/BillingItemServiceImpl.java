@@ -96,7 +96,7 @@ public class BillingItemServiceImpl  implements BillingItemService {
              item.setTotalAmount(totalAmount);
              item.setCreatedAt(LocalDateTime.now());
              item.setBilling(billing); 
-             item.setUserProductId(List.of(userProduct));
+             item.setUserProducts(List.of(userProduct));
 
              userProduct.setBillingItem(item); 
 
