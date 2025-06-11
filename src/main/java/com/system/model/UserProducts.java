@@ -35,17 +35,14 @@ public class UserProducts {
 
 	    @ManyToOne
 	    @JoinColumn(name = "user_id")
-//	    @JsonBackReference
 	    private Users user;
 
 	    @ManyToOne
 	    @JoinColumn(name = "product_id")
-//	    @JsonManagedReference
 	    private Products product;
 
 	    @ManyToOne
 	    @JoinColumn(name = "itemId")
-//	    @JsonManagedReference
 	    private BillingItem billingItem;
 
 	    private int quantity;

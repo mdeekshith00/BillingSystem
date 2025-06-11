@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -167,42 +166,26 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
        public List<BillingDto> getAllBillsByProduct(String productName, String productCompany) {
 
 	        List<BillingDto> billingDtoList = new ArrayList<>();
-           // product name details 
-	        Products product = null;
-	        Products product1 = null;
-	        
+
 	        boolean hasProductName = productName != null && !productName.isEmpty();
 	        boolean hasProductCompany = productCompany != null && !productCompany.isEmpty();
 	        
-	        if(productName != null ) {
-	        product = aProductRepositary.findByProductName(productName);
-	        List<UserProducts> userProductsByName = aUserProductsRepositary.findByProduct(product);
+	       
+	       Products productname  =  aProductRepositary.findByProductName(productName);
+	        List<UserProducts> userProductsByName = aUserProductsRepositary.findByProduct(productname);
 	        List<BillingItem> billItems = aBillingItemRepositary.findByuserProductsIn(userProductsByName);
 	        List<Billing> billing = aBillingRepositary.findByitemIdIn(billItems);
-	        }
-	        if(productCompany != null) {
-          // product comapny details
-	        product1 = aProductRepositary.findByProductCompany(productCompany);
-	        List<UserProducts> userProductsByCompany = aUserProductsRepositary.findByProduct(product1);
+	   
+	        Products productcompany = aProductRepositary.findByProductCompany(productCompany);
+	        List<UserProducts> userProductsByCompany = aUserProductsRepositary.findByProduct(productcompany);
 	        List<BillingItem> billItems1 = aBillingItemRepositary.findByuserProductsIn(userProductsByCompany);
 	        List<Billing> billing1 = aBillingRepositary.findByitemIdIn(billItems1);
-	        }
+	      
 	       
  
            List<Billing> bilList = aBillingRepositary.findAll();
            List<Products> productList = new ArrayList<Products>();
-           List<Users> usersList=new ArrayList<Users>();
-           bilList.forEach(b->{
-        	   usersList.add(b.getUser());
-        	   b.getItemId().forEach((billingItem)->{
-        		   billingItem.getUserProducts().forEach(userProduct->{
-        			   productList.add(userProduct.getProduct());
-        		   });
-        	   });
-           });
-           
-//           productList.forEach(u->System.out.println(u.getProductId()));
-           
+   
            if(!hasProductName && !hasProductCompany)  {
 	       for(Billing b : bilList) {
 	    	   BillingDto billDto = new BillingDto();
@@ -216,39 +199,96 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 	    	   userDto.setEMail(user.getEMail());
 	    	   billDto.setUser(userDto);
 	    	   billDto.setBId(b.getBId());
-	    	   
-	    	   // billing items
-	    	   List<BillingItem> itemIds = b.getItemId();
-	    	   
-	    	   for(BillingItem bi : itemIds) {
-	    		   List<UserProducts> userProd = bi.getUserProducts();
-	    		   for(UserProducts u : userProd) {
-	    			   if(u.getUser().getUId()==user.getUId()) {
-	    			   billDto.setProductCompany(u.getProduct().getProductCompany());
-	    			   System.out.println();
-	    			   billDto.setProductName(u.getProduct().getProductName());
-	    			   }
-//	    			   billingDtoList.add(billDto);
-	    		   }
+	 
+	    	   List<UserProducts> userProducts  = user.getUserProducts();
+	    	   for(UserProducts uerprod : userProducts) {
+	    		   billDto.setProductName(uerprod.getProduct().getProductName()); 
+	    		   billDto.setProductCompany(uerprod.getProduct().getProductCompany());
+	    		   break;
 	    	   }
 	    	   
-	    	 
+	    
 	    		   billingDtoList.add(billDto);
 		       }
 
 	       }
-	    	   
-	    
-
+ 
+           
 	      if(hasProductName && hasProductCompany) {
+	    	if(productname.getProductName().equalsIgnoreCase(productName) && productcompany.getProductCompany().equalsIgnoreCase(productCompany) ) {
+	    		if(productname.getProductId() == productcompany.getProductId()) {
+	    		for(Billing b : billing) {	
+	    			Users user = b.getUser();
+	    			UsersDto2 userDto = new UsersDto2();
+	    			userDto.setUName(user.getUName());
+	    			userDto.setUId(user.getUId());
+	    			userDto.setEMail(user.getEMail());
+	    			userDto.setMobileNo(user.getMobileNo());
+	    			
+	    			BillingDto billingDto = new BillingDto();
+	    			billingDto.setUser(userDto);
+	    			billingDto.setBId(b.getBId());
+	    			billingDto.setProductName(productname.getProductName());
+	    			billingDto.setProductCompany(productcompany.getProductCompany());
+	    			
+	    			billingDtoList.add(billingDto);
+	    		}
+	    			
+	    		} else if(productname.getProductId() != productcompany.getProductId()) {
+	    			billingDtoList.isEmpty();
+	    		} 
+	    		
+	    		
+	    	  } 
+	    	
+	    	
+	      }
+	      else  if(hasProductName) {
+	    	  if(productname.getProductName().equalsIgnoreCase(productName)) {
+		    		for(Billing b : billing) {
+		    			Users user = b.getUser();
+		    			UsersDto2 userDto = new UsersDto2();
+		    			userDto.setUName(user.getUName());
+		    			userDto.setUId(user.getUId());
+		    			userDto.setEMail(user.getEMail());
+		    			userDto.setMobileNo(user.getMobileNo());
+		    			
+		    			BillingDto billingDto = new BillingDto();
+		    			billingDto.setUser(userDto);
+		    			billingDto.setBId(b.getBId());
+		    			billingDto.setProductName(productname.getProductName());
+		    			billingDto.setProductCompany(productname.getProductCompany());
+		    			
+		    			billingDtoList.add(billingDto);
+		    		}
+		    		
+		    		  
+		    	  }
 	    	  
 	      }
-	      if(hasProductName) {
-	    	  
+	      else if(hasProductCompany) {
+	    	  if(productcompany.getProductCompany().equalsIgnoreCase(productCompany)) {
+		    		for(Billing b : billing1) {
+		    			Users user = b.getUser();
+		    			UsersDto2 userDto = new UsersDto2();
+		    			userDto.setUName(user.getUName());
+		    			userDto.setUId(user.getUId());
+		    			userDto.setEMail(user.getEMail());
+		    			userDto.setMobileNo(user.getMobileNo());
+		    			
+		    			BillingDto billingDto = new BillingDto();
+		    			billingDto.setUser(userDto);
+		    			billingDto.setBId(b.getBId());
+		    			billingDto.setProductName(productcompany.getProductName());
+		    			billingDto.setProductCompany(productcompany.getProductCompany());
+		    			
+		    			billingDtoList.add(billingDto);
+		    		}
+		    		
+		    		  
+		    	  }
 	      }
-	      if(hasProductCompany) {
-	    	  
-	      }
+	  
 	       
 	    
 	        return billingDtoList;
@@ -256,5 +296,3 @@ public class AdminServiceImpl implements  UserDetailsService , AdminService   {
 		}
 }
     
-
-

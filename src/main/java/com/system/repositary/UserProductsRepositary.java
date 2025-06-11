@@ -14,4 +14,5 @@ public interface UserProductsRepositary extends JpaRepository<UserProducts, Inte
 		List<UserProducts> findByProduct_ProductIdIn(Set<Integer> productIds);
 		List<UserProducts> findByProduct(Products product);
 	
+	
 }
