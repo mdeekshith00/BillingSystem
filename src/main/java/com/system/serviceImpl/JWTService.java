@@ -5,12 +5,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,7 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JWTService {
 	
+	private AdminServiceImpl adminServiceImpl;
 	private String secertKey = "";
 	
 	public JWTService() {
@@ -36,14 +40,15 @@ public class JWTService {
 	}
 
 	
-	public String generateToken(String username) {
+	public String generateToken(String userName) {
 		// TODO Auto-generated method stub
-		
+
 		Map<String, Object> claims = new HashMap<>();
+
 		return Jwts
 				.builder()
 				.setClaims(claims)
-				.setSubject(username)
+				.setSubject(userName)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 5))
 				.signWith(getKey())

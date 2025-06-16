@@ -41,18 +41,20 @@ public class BillingItem {
 	
 	private BigDecimal totalAmount; // price * quantity
 	
-	private LocalDateTime createdAt;
+	private String fullBill; 
 	
-	 @ManyToOne
-     @JoinColumn(name = "bId")
-//	 @JsonBackReference
-	private Billing billing;
-	  
+	private LocalDateTime createdAt;
 
-	 
 	 @OneToMany(mappedBy = "billingItem" , cascade = CascadeType.ALL)
-//	 @JsonBackReference
 		private List<UserProducts> userProducts;
+	 
+	 @ManyToOne
+		@JoinColumn(name = "admin_id")
+		private Admin admin;
+	 
+		@ManyToOne
+		@JoinColumn(name="user_id")
+		private Users user;
 
 }
 

@@ -9,8 +9,5 @@ public interface ProductsService {
 	ProductsDto addProducts(ProductsModelDto productsModelDto);
 	List<ProductsDto> getAllProducts();
 	ProductsDto getProdutsById(Integer productId);
-	
-
-	
 
 }

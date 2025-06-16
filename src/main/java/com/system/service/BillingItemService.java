@@ -7,11 +7,8 @@ import com.system.modeldto.BillingItemModelDto;
 
 public interface BillingItemService {
 	
-	BillingItemDto addBillingItem(BillingItemModelDto billingItemModelDto);
-	BillingItemDto getBiilItemById(Integer itemId);
+//	BillingItemDto addBillingItem(BillingItemModelDto billingItemModelDto);
+	BillingItemDto getBilItemById(Integer itemId);
 	List<BillingItemDto> getAllBillingItems();
-	
 	String generateFullBillForUser(Integer uId);
-//   String generateBil(Integer uId);
-
 }

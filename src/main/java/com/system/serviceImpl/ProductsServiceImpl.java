@@ -1,18 +1,21 @@
 package com.system.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.system.dto.ProductsDto;
 import com.system.exception.ProductNotFoundException;
+import com.system.model.Admin;
 import com.system.model.Products;
-import com.system.model.Users;
 import com.system.modeldto.ProductsModelDto;
+import com.system.repositary.AdminRepositary;
 import com.system.repositary.ProductsRepositary;
-import com.system.repositary.UsersRepositary;
 import com.system.service.ProductsService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ProductsServiceImpl implements ProductsService {
 	
-	
+	private final AdminRepositary pAdminRepositary;
     private final ProductsRepositary prodRepositary;
 	
 	private final ModelMapper modelMapper;
@@ -38,26 +41,37 @@ public class ProductsServiceImpl implements ProductsService {
 	}
 
 	@Override
-	public List<ProductsDto> getAllProducts() {
-		// TODO Auto-generated method stub
-		List<Products> products  =  prodRepositary.findAll();
-		List<ProductsDto> productList = products.stream().map(a ->modelMapper.map(a,ProductsDto.class)).toList();
-		return productList;
-	}
+	 public List<ProductsDto> getAllProducts() {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Admin> userDetails = pAdminRepositary.findByUserName(userName);
+
+        if (userDetails.isEmpty()) {
+            throw new UsernameNotFoundException("Admin not found: " + userName);
+        }
+
+        List<Products> allProducts = prodRepositary.findAll();
+
+        List<ProductsDto> result = allProducts.stream()
+                .filter(p -> p.getUserProducts() != null && !p.getUserProducts().isEmpty()
+                        && p.getUserProducts().get(0).getUser().getAdmins().stream()
+                        .anyMatch(admin -> admin.getUsername().equalsIgnoreCase(userName)))
+                .map(p -> modelMapper.map(p, ProductsDto.class))
+                .collect(Collectors.toList());
+
+        return result;
+    }
 
 	@Override
 	public ProductsDto getProdutsById(Integer productId) {
 		// TODO Auto-generated method stub
-		
+	
 		Products product = prodRepositary.findById(productId).orElseThrow(() -> 
 		new ProductNotFoundException("Product Not Found on This Id:" + productId));
+		
+          return  modelMapper.map(product, ProductsDto.class);
 
-		return modelMapper.map(product, ProductsDto.class);
 	}
 
-
-
-	
 }
 
 

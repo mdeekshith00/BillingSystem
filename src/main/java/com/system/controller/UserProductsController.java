@@ -20,17 +20,17 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user-product")
+@RequestMapping("/admin/user-product")
 public class UserProductsController {
 	
 	
 	private final UserProductsServiceImpl userProductService;
 	
-	@PostMapping("/assign")
-  public ResponseEntity<String> assignProductToUser(@RequestParam Integer userId, @Valid @RequestParam Integer productId,
-		  @Valid  @RequestParam Integer quantity) {
-		return new ResponseEntity<>(userProductService.assignProductToUser(userId, productId, quantity) , HttpStatus.OK);
-	}
+//	@PostMapping("/assign")
+//  public ResponseEntity<String> assignProductToUser(@RequestParam Integer userId, @Valid @RequestParam Integer productId,
+//		  @Valid  @RequestParam Integer quantity) {
+//		return new ResponseEntity<>(userProductService.assignProductToUser(userId, productId, quantity) , HttpStatus.OK);
+//	}
 	@GetMapping
 	public  ResponseEntity<List<UserProductsDto>> getAllUserProducts(){
 		return new ResponseEntity<>(userProductService.getAllUserProducts()  , HttpStatus.OK);

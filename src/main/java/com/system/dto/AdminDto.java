@@ -11,14 +11,10 @@ import lombok.NoArgsConstructor;
 
 public class AdminDto {
 	
-	private Integer aId;
+//	private Integer aId;
 	
 	private String userName;
 
 	private String role;
-	
-//	private String resetToken;
-	
-	
 
 }

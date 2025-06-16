@@ -1,8 +1,7 @@
 package com.system.dto;
 
 import java.util.List;
-
-import com.system.model.Admin;
+import com.system.model.BillingItem;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-
-public class UsersDto {
-
-	// user details
-	private Integer uId;
+public class UsersDtoMax {
+    private Integer uId;
 	
 	private String uName;
 	
@@ -27,5 +23,7 @@ public class UsersDto {
 	private AdminDto admin;
 
     private List<UserProductsDto> userProducts; 
+    
+    private List<BillingItemDtoMin> billingItems;
 
 }

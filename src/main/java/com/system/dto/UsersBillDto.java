@@ -2,20 +2,16 @@ package com.system.dto;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 
-
-public class UsersDto1 {
-	
+public class UsersBillDto {
+    
 	private Integer uId;
 	
     private String uName;
@@ -24,8 +20,6 @@ public class UsersDto1 {
     
     private String eMail;
     
-    private List<UsersProductsDto1> UserProducts;
-
-
+    private BillingItemDtoMin BillingItems;
 
 }

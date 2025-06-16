@@ -30,10 +30,12 @@ public class SecurityConfig {
 		return http
 				.csrf(customizer -> customizer.disable())
 				.authorizeHttpRequests(request -> request
-						.requestMatchers("/signup" , "/forgot-password", "/reset-password")
+						.requestMatchers("/sign-up" , "/sign-in")
 						.permitAll()
+						.requestMatchers("/forgot-password","/reset-password")
+						.permitAll()
+						.requestMatchers("/admin/**").hasAuthority("Admin")
 						.anyRequest().authenticated())
-
 				.httpBasic(Customizer.withDefaults())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

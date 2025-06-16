@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.system.repositary.BillingRepositary;
+import com.system.repositary.BillingItemRepositary;
 import com.system.service.ScheduleService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class SchedulerServiceImpl implements ScheduleService {
 		
 	
-	private final  BillingRepositary sBillingRepositary;
+	private final  BillingItemRepositary sBillingItemRepositary;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerServiceImpl.class);
 
@@ -31,7 +31,7 @@ public class SchedulerServiceImpl implements ScheduleService {
 		
 		if(today.equals(lastDay)) { 
 //			  System.out.println("Last day of month detected. Deleting data..."); 
-			  sBillingRepositary.deleteAll();
+			sBillingItemRepositary.deleteAll();
 			  LOGGER.info("Last day of month detected. Deleting data...");
 			 
 		}

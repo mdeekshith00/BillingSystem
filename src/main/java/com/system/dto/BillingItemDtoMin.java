@@ -1,12 +1,6 @@
-package com.system.modeldto;
+package com.system.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
-import com.system.model.UserProducts;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Component
-public class BillingItemModelDto {
+public class BillingItemDtoMin {
+	
 	private Integer itemId;
 	 
 	private int quantity;
@@ -25,9 +19,5 @@ public class BillingItemModelDto {
 	private BigDecimal price; // Unit price (copied from Products)
 	
 	private BigDecimal totalAmount; // price * quantity
-	
-	private LocalDateTime createdAt;
-		  
-   private List<UserProducts> UserProductId;
 
 }

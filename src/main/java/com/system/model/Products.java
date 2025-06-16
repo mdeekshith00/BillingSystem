@@ -30,14 +30,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "productId")
-//@JsonAutoDetect(getterVisibility=Visibility.NONE)
+
 @Entity
 public class Products {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonProperty("productId")
 	private Integer  productId;
-	
 	@Column(nullable = false , unique = true)
 	@Size(min=2, max=30)
 	private String productName;
@@ -55,19 +54,17 @@ public class Products {
 	private LocalDate expiryDate;
 	@Column(nullable = false )
 	private String unit; 
-	
+	@Column(nullable = false)
+	@JsonProperty("ingredients")
+	private String ingredients;
 	@Column(nullable = false)
 	@PastOrPresent(message = " createdAt should be in past or present")
 	private LocalDateTime createdAt; //  when the product was added.
 	@Column(nullable = false)
 	private LocalDateTime updatedAt; // when the product was updated at store 
-	
 
-//	@JsonBackReference
 	@OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)
 	private List<UserProducts> userProducts;
-	
-
 
 }
 

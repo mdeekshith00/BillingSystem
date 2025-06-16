@@ -33,6 +33,8 @@ public class ProductsModelDto {
 	
 	private String unit; 
 	
+	private String ingredients;
+	
 	private LocalDateTime createdAt; //  when the product was added.
 	
 	private LocalDateTime updatedAt;

@@ -1,5 +1,6 @@
 package com.system.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,6 +19,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -25,7 +29,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,8 +41,9 @@ public class Admin  implements UserDetails {
 	@JsonProperty("aId")
 	private Integer aId;
 	
-	@Column
-	@NotBlank(message = "uName is mandatory")
+	
+	@NotBlank(message = "uName is mandatory" )
+	@Column(unique = true)
 	private String userName;
 	@Column(nullable = false , unique = true)
 	@Size(min=2)
@@ -49,17 +53,22 @@ public class Admin  implements UserDetails {
 	
 	@Column(name = "reset_token")
 	private String resetToken;
-
-	
 	
 	@OneToMany(mappedBy = "admin" , cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<Billing> bId;
+	private List<BillingItem> itemId;
+	
+
+	@ManyToMany
+	@JoinTable(name = "admin_users", 
+	    joinColumns = @JoinColumn(name = "aId"),
+	    inverseJoinColumns = @JoinColumn(name = "uId"))
+	private List<Users> users = new ArrayList<Users>();
+
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return List.of(new SimpleGrantedAuthority("Role_" + role));
+		return List.of(new SimpleGrantedAuthority(role));
 	}
 
 
@@ -76,6 +85,5 @@ public class Admin  implements UserDetails {
 		return userName;
 	}
 
-	
 
 }

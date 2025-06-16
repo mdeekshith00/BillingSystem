@@ -18,5 +18,7 @@ private Integer uId;
 	private String mobileNo;
 	
 	private String eMail;
+	
+	
 
 }

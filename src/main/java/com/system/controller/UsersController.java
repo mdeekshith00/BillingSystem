@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.system.dto.UsersDto;
-import com.system.dto.UsersDto1;
+import com.system.dto.UserDtoMin;
+import com.system.dto.UsersBillDto;
 import com.system.dto.UsersDto2;
+import com.system.dto.UsersDtoMax;
 import com.system.modeldto.UsersModelDto;
 import com.system.serviceImpl.UsersServiceImpl;
 
@@ -24,15 +25,14 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/admin/users")
 public class UsersController {
 	
 	
 	private final UsersServiceImpl uService;
 	
 	@PostMapping("/add")
-	public ResponseEntity<UsersDto> addUser(@Valid  @RequestBody  UsersModelDto userModelDto) {
-		System.out.println(uService.addUser(userModelDto));
+	public ResponseEntity<UserDtoMin> addUser(@Valid  @RequestBody  UsersModelDto userModelDto) {
 		return new ResponseEntity<>(uService.addUser(userModelDto) , HttpStatus.CREATED);
 	}
 	@GetMapping
@@ -40,23 +40,25 @@ public class UsersController {
 		return new ResponseEntity<>(uService.getAllUsers() , HttpStatus.OK);
 	}
 	@GetMapping("/details")
-	public ResponseEntity<UsersDto1> getUserById(@RequestParam Integer uId , @RequestParam Integer bId) {
-		return new ResponseEntity<>(uService.getBillByUserId(uId, bId) , HttpStatus.OK);
+	public ResponseEntity<UsersBillDto> getUserById(@RequestParam(required = false) Integer uId , @RequestParam(required = false) Integer itemId) {
+		return new ResponseEntity<>(uService.getBillByUserId(uId, itemId) , HttpStatus.OK);
 	}
 	@GetMapping("/id/{uId}")
 	public ResponseEntity<UsersDto2> getUserById(@PathVariable Integer uId){
 		return new ResponseEntity<>(uService.getUserById(uId) , HttpStatus.OK);
 	}
-	@PostMapping("/assign")
-	public ResponseEntity<UsersDto1> setProductsToUsers(@Valid @RequestParam Integer uId,@RequestParam Integer productId, @RequestParam int quantity) {
-		return new ResponseEntity<>(uService.setProductsToUsers(uId, productId, quantity) , HttpStatus.OK);
+
+	@GetMapping("/getAllDeatils/{uId}")
+	public ResponseEntity<UsersDtoMax> getUserDetailsById(@PathVariable Integer uId) {
+		return new ResponseEntity<>(uService.getUserDetailsById(uId) , HttpStatus.OK);
 	}
 	
-	// need to change 
-	@GetMapping("/getAllDeatils/{uId}")
-	public ResponseEntity<UsersDto> getUserDetailsById(@PathVariable Integer uId) {
-		return new ResponseEntity<UsersDto>(uService.getUserDetailsById(uId) , HttpStatus.OK);
-	}
+//	@PostMapping("/assign")
+//	public ResponseEntity<UsersDto1> setProductsToUsers(@Valid @RequestParam Integer uId,@RequestParam Integer productId, @RequestParam int quantity) {
+//		return new ResponseEntity<>(uService.setProductsToUsers(uId, productId, quantity) , HttpStatus.OK);
+//	}
+	
+
 
 }
 
